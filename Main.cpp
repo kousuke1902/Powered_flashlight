@@ -1,5 +1,6 @@
 ﻿# include <Siv3D.hpp>
 # include "game_input.hpp"
+# include "action_system.hpp"
 
 
 void Main()
@@ -17,11 +18,14 @@ void Main()
 	Scene::SetBackground(ColorF{ 0.6, 0.8, 0.7 });
 
 	GameInput& input = GameInput::getInstance();
+	ActionSystem& action = ActionSystem::getInstance();
+
+	action.Startup();
 
 	while (System::Update())
 	{
 		ClearPrint();
-		Print(input.ButtonDetect());
-
+		Print(action.ShowPower());
+		action.Update();
 	}
 }

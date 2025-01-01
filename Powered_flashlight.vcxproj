@@ -325,6 +325,8 @@
     <Xml Include="App\example\xml\test.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="action_system.hpp" />
+    <ClInclude Include="app_startup.hpp" />
     <ClInclude Include="game_input.hpp" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>

@@ -812,5 +812,11 @@
     <ClInclude Include="game_input.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="app_startup.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="action_system.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
