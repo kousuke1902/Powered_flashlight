@@ -20,12 +20,15 @@ void Main()
 	GameInput& input = GameInput::getInstance();
 	ActionSystem& action = ActionSystem::getInstance();
 
+	input.Startup();
 	action.Startup();
 
 	while (System::Update())
 	{
 		ClearPrint();
 		Print(action.ShowPower());
+		Print(action.ShowThumbCount());
+		Print(action.ShowThumbBuffer());
 		action.Update();
 	}
 }

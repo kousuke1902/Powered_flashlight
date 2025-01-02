@@ -12,8 +12,8 @@ private:
 
 	Vec2 before_mouse_pos; // 前フレーム時のマウス座標
 	Vec2 before_trigger; // 前回トリガー状態 (L=X, R=Y)
-	Vec4 thumble_pos; // スティック座標 (LX=X, LY=Y, RX=Z, RY=W)
-	Vec4 before_thumble_pos; // 前回のスティック座標 (L=X, R=Y)
+	Vec4 thumb_pos; // スティック座標 (LX=X, LY=Y, RX=Z, RY=W)
+	Vec4 before_thumb_pos; // 前回のスティック座標 (L=X, R=Y)
 
 public:
 
@@ -86,17 +86,19 @@ public:
 	}
 
 	// スティックの座標 (LX=X, LY=Y, RX=Z, RY=W)
-	Vec4 ThumblePos()
+	Vec4 ThumbPos()
 	{
-		thumble_pos = Vec4(XInput(0).leftThumbX, XInput(0).leftThumbY, XInput(0).rightThumbX, XInput(0).rightThumbY);
+		thumb_pos = Vec4(XInput(0).leftThumbX, XInput(0).leftThumbY, XInput(0).rightThumbX, XInput(0).rightThumbY);
 
-		return thumble_pos;
+		return thumb_pos;
 	}
 
-	// スティックの相対距離 (ML=X, MR=Y)
-	Vec2 ThumbleDeltaMovement()
+	// スティックの相対距離 (MomentL=X, MomentR=Y)
+	Vec2 ThumbDeltaMovement()
 	{
-		Vec4 delta_thumble_pos = thumble_pos - before_thumble_pos;
+		Vec4 delta_thumble_pos = thumb_pos - before_thumb_pos;
+
+		before_thumb_pos = thumb_pos;
 
 		Vec2 moment_L(delta_thumble_pos.x, delta_thumble_pos.y);
 		Vec2 moment_R(delta_thumble_pos.z, delta_thumble_pos.w);
@@ -130,7 +132,12 @@ public:
 	{
 		before_mouse_pos = Cursor::Pos();
 		before_trigger = Vec2(0, 0);
-		before_thumble_pos = Vec4(0, 0, 0, 0);
+		before_thumb_pos = Vec4(0, 0, 0, 0);
+
+		auto controller = XInput(0);
+
+		controller.setLeftThumbDeadZone();
+		controller.setRightThumbDeadZone();
 
 		return 0;
 	}
