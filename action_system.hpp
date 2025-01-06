@@ -1,6 +1,7 @@
-﻿# pragma once
-# include <Siv3D.hpp>
-# include "game_input.hpp"
+﻿#pragma once
+#include <Siv3D.hpp>
+#include "game_input.hpp"
+#include "draw_system.hpp"
 
 // 様々な操作に対する処理クラス
 class ActionSystem final
@@ -18,6 +19,7 @@ private:
 	Vec2 thumb_count; // スティック累計移動量
 
 	GameInput& input = GameInput::getInstance();
+	DrawSystem& draw = DrawSystem::getInstance();
 
 	// ボタン押しアクション
 	int PushAction()
@@ -28,6 +30,7 @@ private:
 		power += count; // 電力充電
 
 		// 描画処理
+		draw.DrawEnergySphre(count);
 
 		return 0;
 	}
@@ -95,6 +98,8 @@ private:
 
 
 		// 描画処理  
+
+
 
 		return 0;
 	}

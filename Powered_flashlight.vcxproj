@@ -327,6 +327,9 @@
   <ItemGroup>
     <ClInclude Include="action_system.hpp" />
     <ClInclude Include="app_startup.hpp" />
+    <ClInclude Include="delta_time.hpp" />
+    <ClInclude Include="draw_system.hpp" />
+    <ClInclude Include="energy_sphre.hpp" />
     <ClInclude Include="game_input.hpp" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>

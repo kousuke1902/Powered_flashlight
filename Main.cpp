@@ -1,6 +1,8 @@
-﻿# include <Siv3D.hpp>
-# include "game_input.hpp"
-# include "action_system.hpp"
+﻿#include <Siv3D.hpp>
+#include "action_system.hpp"
+#include "delta_time.hpp"
+#include "app_startup.hpp"
+
 
 
 void Main()
@@ -17,18 +19,19 @@ void Main()
 	// 背景の色を設定する | Set the background color
 	Scene::SetBackground(ColorF{ 0.6, 0.8, 0.7 });
 
-	GameInput& input = GameInput::getInstance();
-	ActionSystem& action = ActionSystem::getInstance();
 
-	input.Startup();
-	action.Startup();
+	ActionSystem& action = ActionSystem::getInstance();
+	DeltaTime& delta_time = DeltaTime::getInstance();
+
+	StartUp();
 
 	while (System::Update())
 	{
+		delta_time.CatchDeltaTime();
 		ClearPrint();
 		Print(action.ShowPower());
-		Print(action.ShowThumbCount());
-		Print(action.ShowThumbBuffer());
+		Print(delta_time.ShowDeltaTime());
+
 		action.Update();
 	}
 }

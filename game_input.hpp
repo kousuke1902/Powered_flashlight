@@ -1,5 +1,5 @@
-﻿# pragma once
-# include <Siv3D.hpp>
+﻿#pragma once
+#include <Siv3D.hpp>
 
 // ゲーム内での入力に関する処理クラス
 class GameInput final
@@ -108,14 +108,14 @@ public:
 
 
 	// マウスホイール相対移動量検知
-	int MouseWheelAbsDetect()
+	double MouseWheelAbsDetect()
 	{
 
 		return Abs(Mouse::Wheel()) + Abs(Mouse::WheelH());
 	}
 
 	// マウスカーソル相対移動量検知
-	int MouseDeltaMovement()
+	double MouseDeltaMovement()
 	{
 		Vec2 mouse_pos = Cursor::Pos();
 		Vec2 delta_pos = mouse_pos - before_mouse_pos;
