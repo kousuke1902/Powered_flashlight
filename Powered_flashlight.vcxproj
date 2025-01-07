@@ -332,6 +332,7 @@
     <ClInclude Include="energy_sphre.hpp" />
     <ClInclude Include="game_input.hpp" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="tachometer.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App\example\obj\blacksmith.obj">

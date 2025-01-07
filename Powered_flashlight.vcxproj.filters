@@ -830,5 +830,8 @@
     <ClInclude Include="delta_time.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="tachometer.hpp">
+      <Filter>Header Files\DrawGraph</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

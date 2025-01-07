@@ -56,7 +56,7 @@ private:
 		}
 
 		// 描画処理
-
+		draw.DrawTachometer(trigger.x);
 
 
 		return 0;
