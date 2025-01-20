@@ -2,6 +2,7 @@
 
 #include "energy_sphre.hpp"
 #include "tachometer.hpp"
+#include "piston_engine.hpp"
 
 // 描画処理関連の操作クラス
 class DrawSystem final
@@ -12,8 +13,10 @@ private:
 	DrawSystem() = default; // コンストラクタ
 	~DrawSystem() = default; // デストラクタ
 
-	EnergySphre sphre{ 300.0,300.0 };
-	Tachometer tacho{ 400.0, 400.0 };
+	EnergySphre sphre;
+	Tachometer tacho;
+	PistonEngine engine;
+	
 
 public:
 
@@ -30,17 +33,24 @@ public:
 	}
 
 	// エネルギー球の描画処理 x=ボタン押し数
-	int DrawEnergySphre(int x)
+	int DrawEnergySphre(Vec2 origin, int x)
 	{
 		sphre.MovementPoints(x);
-		sphre.Draw();
+		sphre.Draw(origin);
 		return 0;
 	}
 
 	// タコメーターの描画処理 x=針の振れ幅
-	int DrawTachometer(double x)
+	int DrawTachometer(Vec2 origin, double x)
 	{
-		tacho.Draw(x);
+		tacho.Draw(origin, x);
+		return 0;
+	}
+
+	// ピストンエンジンの描画
+	int DrawPistonEngine(Vec2 origin, int x)
+	{
+		engine.Draw(origin, x);
 		return 0;
 	}
 

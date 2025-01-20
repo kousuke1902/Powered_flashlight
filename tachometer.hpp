@@ -10,45 +10,35 @@ class Tachometer
 {
 private:
 
-	Circle base; // メーター土台
-	double pointer ; // メーター針終点
+
 
 public:
 
 	// コンストラクタ
 	Tachometer()
 	{
-		base = Circle{300.0, 300.0, _METER_SIZE_ };
-		pointer =0.0;
+
 	}
 
-	// コンストラクタ
-	Tachometer(double x, double y)
-	{
-		base = Circle{ x, y, _METER_SIZE_ };
-		pointer = 0.0;
-	}
-
-	// タコメーターの描画 X=針の振れ幅
-	int Draw(double x)
+	// タコメーターの描画 origin=原点 X=針の振れ幅
+	int Draw(Vec2 origin, double x)
 	{
 		// ベース
-		base.draw(Palette::Black).drawFrame(7.0, Palette::Slategray);
+		Circle{ origin, _METER_SIZE_ }.draw(Palette::Black).drawFrame(7.0, Palette::Slategray);
 
 		// 目盛り
 		for (int step = 0; step < 11; ++step)
 		{
 			double theta = 22_deg * step - 110_deg;
-			Line{ OffsetCircular{base.center, _SCALE_SIZE_, theta}, OffsetCircular{base.center, _POINTER_SIZE_, theta} }.draw(5.0, Palette::White);
+			Line{ OffsetCircular{origin, _SCALE_SIZE_, theta}, OffsetCircular{origin, _POINTER_SIZE_, theta} }.draw(5.0, Palette::White);
 
 		}
 
 		// 針
-		Line{ base.center, OffsetCircular{base.center, _POINTER_SIZE_, 220_deg * x - 110_deg} }.draw(LineStyle::RoundCap,10, Palette::Red);
+		Line{ origin, OffsetCircular{origin, _POINTER_SIZE_, 220_deg * x - 110_deg} }.draw(LineStyle::RoundCap,10, Palette::Red);
 
 		// ランプ
-		if(x >= 0.8)Circle{ base.x, base.y + 20, _LAMP_SIZE_ }.draw(HSV(0.0, 1.0, 1.0));
-		else Circle{ base.x, base.y + 20, _LAMP_SIZE_ }.draw(HSV(0.0, 0.0, 1.0));
+		Circle{ origin.x, origin.y + 20, _LAMP_SIZE_ }.draw(HSV(0.0, x >= 0.85 ? 1.0 : 0.0, 1.0));
 
 		return 0;
 	}

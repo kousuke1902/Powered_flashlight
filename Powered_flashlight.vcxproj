@@ -331,6 +331,7 @@
     <ClInclude Include="draw_system.hpp" />
     <ClInclude Include="energy_sphre.hpp" />
     <ClInclude Include="game_input.hpp" />
+    <ClInclude Include="piston_engine.hpp" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="tachometer.hpp" />
   </ItemGroup>

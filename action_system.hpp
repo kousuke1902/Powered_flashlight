@@ -17,6 +17,9 @@ private:
 	Vec2 trigger_count; // 総トリガーの押し込み
 	Vec2 thumb_buffer; // スティック累計移動差分
 	Vec2 thumb_count; // スティック累計移動量
+	int wheel_count; // マウスホイールの累計移動量
+	double mouse_count; // マウス移動量
+	double mouse_buffer; // マウス移動量差分
 
 	GameInput& input = GameInput::getInstance();
 	DrawSystem& draw = DrawSystem::getInstance();
@@ -30,7 +33,7 @@ private:
 		power += count; // 電力充電
 
 		// 描画処理
-		draw.DrawEnergySphre(count);
+		draw.DrawEnergySphre(Vec2{300.0, 300.0}, count);
 
 		return 0;
 	}
@@ -56,8 +59,8 @@ private:
 		}
 
 		// 描画処理
-		draw.DrawTachometer(trigger.x);
-
+		draw.DrawTachometer(Vec2{ 300.0, 400.0 }, trigger.x);
+		draw.DrawTachometer(Vec2{ 500.0, 400.0 }, trigger.y);
 
 		return 0;
 	}
@@ -100,6 +103,40 @@ private:
 		// 描画処理  
 
 
+
+		return 0;
+	}
+
+	// マウスホイール操作アクション
+	int WheelAction()
+	{
+		double count = input.MouseWheelAbsDetect();
+
+		power += count; // 電力加算
+		wheel_count += count;// 累計移動量に足しこみ
+
+		 // 描画
+		 
+
+		return 0;
+	}
+
+	// マウス移動アクション
+	int MouseAction()
+	{
+		double count = input.MouseDeltaMovement();
+		mouse_count += count; // マウス移動量加算
+		mouse_buffer += count; // マウス移動量差分加算
+
+		// 差分計算
+		if (mouse_buffer >= 10.0)
+		{
+			mouse_buffer -= mouse_buffer / 10.0;
+			power++;
+		}
+
+		// 描画
+		draw.DrawPistonEngine(Vec2{ 200.0, 200.0 }, mouse_count);
 
 		return 0;
 	}
@@ -158,6 +195,13 @@ public:
 		return thumb_buffer;
 	}
 
+	// マウスホイールの累計移動量
+	const int ShowMouseWheelCount()
+	{
+
+		return wheel_count;
+	}
+
 	// 初期設定
 	int Startup()
 	{
@@ -174,6 +218,8 @@ public:
 		PushAction();
 		TriggerAction();
 		ThumbAction();
+		WheelAction();
+		MouseAction();
 
 		return 0;
 	}

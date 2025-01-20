@@ -11,7 +11,6 @@ class EnergySphre
 
 private:
 
-	Vec2 origin;
 	Array<double> lengths; // 動かした点群の移動距離
 	double piece; // 1角度の大きさ
 	DeltaTime& delta_time = DeltaTime::getInstance();
@@ -25,22 +24,7 @@ public:
 		lengths = Array<double>(_MAX_SPHRE_POINTS_, 0.0);
 		// 1角の大きさを確定する
 		piece = 360_deg / _MAX_SPHRE_POINTS_;
-		// 原点
-		origin = Vec2(300.0, 300.0);
-
 	}
-	
-	// コンストラクタ
-	EnergySphre(double x, double y)
-	{
-		// 個数分初期値の幅を作成する
-		lengths = Array<double>(_MAX_SPHRE_POINTS_, 0.0);
-		// 1角の大きさを確定する
-		piece = 360_deg / _MAX_SPHRE_POINTS_;
-		// 原点
-		origin = Vec2(x, y);
-	}
-
 
 	// デストラクタ
 	~EnergySphre(){}
@@ -71,8 +55,8 @@ public:
 		return 0;
 	}
 
-	// (x, y)の座標にスフィアを形成する
-	int Draw()
+	// origin座標にスフィアを形成する
+	int Draw(Vec2 origin)
 	{
 		Array<Vec2> sphre_points; // 合算したスフィアの点群形状
 
