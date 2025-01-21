@@ -131,8 +131,9 @@ private:
 		// 差分計算
 		if (mouse_buffer >= 10.0)
 		{
-			mouse_buffer -= mouse_buffer / 10.0;
-			power++;
+			double ratio = mouse_buffer / 10.0;
+			mouse_buffer -= ratio * 10.0;
+			power += ratio;
 		}
 
 		// 描画
