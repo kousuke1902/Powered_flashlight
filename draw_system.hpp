@@ -3,6 +3,7 @@
 #include "energy_sphre.hpp"
 #include "tachometer.hpp"
 #include "piston_engine.hpp"
+#include "chart.hpp"
 
 // 描画処理関連の操作クラス
 class DrawSystem final
@@ -16,6 +17,7 @@ private:
 	EnergySphre sphre;
 	Tachometer tacho;
 	PistonEngine engine;
+	Chart chart;
 	
 
 public:
@@ -48,9 +50,16 @@ public:
 	}
 
 	// ピストンエンジンの描画
-	int DrawPistonEngine(Vec2 origin, int x)
+	int DrawPistonEngine(Vec2 origin, double x)
 	{
 		engine.Draw(origin, x);
+		return 0;
+	}
+
+	// チャートグラフの描画
+	int DrawChart(Vec2 origin, int x)
+	{
+		chart.Draw(origin, x);
 		return 0;
 	}
 

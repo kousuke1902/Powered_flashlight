@@ -110,13 +110,13 @@ private:
 	// マウスホイール操作アクション
 	int WheelAction()
 	{
-		double count = input.MouseWheelAbsDetect();
+		int count = int(input.MouseWheelAbsDetect());
 
 		power += count; // 電力加算
 		wheel_count += count;// 累計移動量に足しこみ
 
 		 // 描画
-		 
+		draw.DrawChart(Vec2{ 400.0, 400.0 }, count);
 
 		return 0;
 	}
@@ -133,7 +133,7 @@ private:
 		{
 			double ratio = mouse_buffer / 10.0;
 			mouse_buffer -= ratio * 10.0;
-			power += ratio;
+			power += int(ratio);
 		}
 
 		// 描画
@@ -141,6 +141,8 @@ private:
 
 		return 0;
 	}
+
+
 
 public:
 

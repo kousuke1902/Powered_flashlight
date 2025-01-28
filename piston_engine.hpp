@@ -1,9 +1,10 @@
 ﻿#pragma once
-#include<Siv3D.hpp>
+#include <Siv3D.hpp>
 
 #define _CIRCLE_RADIUS_ 10.0
 #define _FIRST_SHAFT_SIZE_ 50.0
 
+// 累積値にあわせて動くピストンエンジンのアニメーションクラス
 class PistonEngine
 {
 

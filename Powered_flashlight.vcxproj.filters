@@ -836,5 +836,8 @@
     <ClInclude Include="piston_engine.hpp">
       <Filter>Header Files\DrawGraph</Filter>
     </ClInclude>
+    <ClInclude Include="chart.hpp">
+      <Filter>Header Files\DrawGraph</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -6,6 +6,7 @@
 #define _POINTER_SIZE_ 40
 #define _SCALE_SIZE_ 30
 
+// 出力に対して動くタコメーターのアニメーションクラス
 class Tachometer
 {
 private:
