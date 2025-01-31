@@ -139,6 +139,9 @@
     <Filter Include="Header Files\DrawGraph">
       <UniqueIdentifier>{7b5737c1-f179-41e7-a8a3-e3335689c302}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Particle">
+      <UniqueIdentifier>{82525a36-4a1d-4903-8638-76e58a29b198}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -838,6 +841,15 @@
     </ClInclude>
     <ClInclude Include="chart.hpp">
       <Filter>Header Files\DrawGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="trace_line.hpp">
+      <Filter>Header Files\DrawGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="particle_system.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="base_particle.hpp">
+      <Filter>Header Files\Particle</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

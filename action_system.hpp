@@ -2,6 +2,7 @@
 #include <Siv3D.hpp>
 #include "game_input.hpp"
 #include "draw_system.hpp"
+#include "particle_system.hpp"
 
 // 様々な操作に対する処理クラス
 class ActionSystem final
@@ -23,6 +24,7 @@ private:
 
 	GameInput& input = GameInput::getInstance();
 	DrawSystem& draw = DrawSystem::getInstance();
+	ParticleSystem& particle = ParticleSystem::getInstance();
 
 	// ボタン押しアクション
 	int PushAction()
@@ -34,6 +36,10 @@ private:
 
 		// 描画処理
 		draw.DrawEnergySphre(Vec2{300.0, 300.0}, count);
+
+		//BaseParticle test{ 5.0, Vec2{ 300.0, 300.0 }, 100.0 };
+
+		//if(count > 0)particle.AddParticle(new BaseParticle);
 
 		return 0;
 	}
@@ -70,7 +76,7 @@ private:
 	{
 		const Vec4 thumb_pos = input.ThumbPos(); // スティック位置
 		const Vec2 delta_thumb = input.ThumbDeltaMovement(); // スティック移動差分
-		const Vec2 thumb_button = input.ButtonThumbDetect();
+		const Vec2 thumb_button = input.ButtonThumbDetect(); // スティック押し込み
 
 		thumb_buffer += delta_thumb; // スティックの移動量を足しこみ
 		thumb_count += delta_thumb; // スティックの移動量を足しこみ

@@ -1,5 +1,6 @@
 ﻿#include <Siv3D.hpp>
 #include "action_system.hpp"
+#include "particle_system.hpp"
 #include "delta_time.hpp"
 #include "app_startup.hpp"
 
@@ -21,6 +22,7 @@ void Main()
 
 
 	ActionSystem& action = ActionSystem::getInstance();
+	ParticleSystem& particle = ParticleSystem::getInstance();
 	DeltaTime& delta_time = DeltaTime::getInstance();
 
 	StartUp();
@@ -33,5 +35,6 @@ void Main()
 		Print(delta_time.ShowDeltaTime());
 
 		action.Update();
+		particle.Update();
 	}
 }
