@@ -851,5 +851,8 @@
     <ClInclude Include="base_particle.hpp">
       <Filter>Header Files\Particle</Filter>
     </ClInclude>
+    <ClInclude Include="scatter.hpp">
+      <Filter>Header Files\Particle</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

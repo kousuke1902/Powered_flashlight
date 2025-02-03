@@ -2,16 +2,18 @@
 #include <Siv3D.hpp>
 #include "delta_time.hpp"
 
+// パーティクルの基礎クラス
 class BaseParticle
 {
 private:
 
-	double life_span; // 時間的寿命
 	DeltaTime& deltatime = DeltaTime::getInstance(); // 差分時間取得
 
 protected:
 
+	double life_span; // 時間的寿命
 	Vec2 graph; // 座標位置
+	Vec2 vector; // 移動方向
 	double speed; // 速度
 
 public:
@@ -19,9 +21,10 @@ public:
 	// コンストラクタ
 	BaseParticle()
 	{
-		life_span = 5.0;
+		life_span = 1.0;
 		graph = Vec2(300.0, 300.0);
-		speed = 100.0;
+		vector = Vec2(0.0, 1.0);
+		speed = 10.0;
 	}
 
 	// コンストラクタ
@@ -30,6 +33,7 @@ public:
 
 		life_span = set_life_span;
 		graph = origin_graph;
+		vector = Vec2(0.0, 1.0);
 		speed = set_speed;
 	}
 
@@ -47,14 +51,14 @@ public:
 	// 寿命確認
 	bool CheckLife()
 	{
-		if (life_span <= 0.0) true;
-		return false;
+		if (life_span > 0.0) return false;
+		return true;
 	}
 
 	// パーティクル移動
 	virtual int Move()
 	{
-		graph.moveBy(Vec2(0.0, 1.0) * speed * deltatime.ShowDeltaTime());
+		graph.moveBy(vector * speed * deltatime.ShowDeltaTime());
 
 		return 0;
 	}

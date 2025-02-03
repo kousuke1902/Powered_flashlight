@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <Siv3D.hpp>
 #include "base_particle.hpp"
+#include "scatter.hpp"
 
 // パーティクル処理関連の操作クラス
 class ParticleSystem final

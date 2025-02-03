@@ -37,9 +37,7 @@ private:
 		// 描画処理
 		draw.DrawEnergySphre(Vec2{300.0, 300.0}, count);
 
-		//BaseParticle test{ 5.0, Vec2{ 300.0, 300.0 }, 100.0 };
-
-		//if(count > 0)particle.AddParticle(new BaseParticle);
+		if(count > 0)particle.AddParticle(new Scatter(1.0, Vec2(100.0, 300.0)));
 
 		return 0;
 	}

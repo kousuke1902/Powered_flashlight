@@ -335,6 +335,7 @@
     <ClInclude Include="game_input.hpp" />
     <ClInclude Include="particle_system.hpp" />
     <ClInclude Include="piston_engine.hpp" />
+    <ClInclude Include="scatter.hpp" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="tachometer.hpp" />
     <ClInclude Include="trace_line.hpp" />
