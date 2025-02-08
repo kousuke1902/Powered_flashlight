@@ -19,7 +19,7 @@ public:
 		graph = origin_graph;
 		speed = Random<double>(50.0, 100.0);
 		vector = Vec2(Random<double>(-1.0, 1.0), Random<double>(-1.0, 1.0)).setLength(1.0);
-		icon = Texture{ 0xf5d2_icon, 30 };
+		icon = Texture{ 0xf5d2_icon, 10 };
 	}
 
 	// デストラクタ

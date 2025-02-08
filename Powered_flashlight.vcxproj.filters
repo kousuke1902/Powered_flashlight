@@ -842,9 +842,6 @@
     <ClInclude Include="chart.hpp">
       <Filter>Header Files\DrawGraph</Filter>
     </ClInclude>
-    <ClInclude Include="trace_line.hpp">
-      <Filter>Header Files\DrawGraph</Filter>
-    </ClInclude>
     <ClInclude Include="particle_system.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>

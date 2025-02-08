@@ -338,7 +338,6 @@
     <ClInclude Include="scatter.hpp" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="tachometer.hpp" />
-    <ClInclude Include="trace_line.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App\example\obj\blacksmith.obj">

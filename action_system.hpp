@@ -37,7 +37,6 @@ private:
 		// 描画処理
 		draw.DrawEnergySphre(Vec2{300.0, 300.0}, count);
 
-		if(count > 0)particle.AddParticle(new Scatter(1.0, Vec2(100.0, 300.0)));
 
 		return 0;
 	}
@@ -79,34 +78,39 @@ private:
 		thumb_buffer += delta_thumb; // スティックの移動量を足しこみ
 		thumb_count += delta_thumb; // スティックの移動量を足しこみ
 
-		if (thumb_buffer.x >= 1.0) // 規定量を越えた際に電力へ変える
+		if (thumb_buffer.x >= 1.0) // 規定量を越えたか
 		{
+			// 電力へ変える
 			power++;
 			thumb_buffer.x--;
+
+			// 描画
+			particle.AddParticle(new Scatter(1.0, Vec2(250.0, 300.0) + thumb_pos.xy() * 50.0));
 		}
 
-		if (thumb_buffer.y >= 1.0) // 規定量を越えた際に電力へ変える
+		if (thumb_buffer.y >= 1.0) // 規定量を越えたか
 		{
+			// 電力へ変える
 			power++;
 			thumb_buffer.y--;
+
+			// 描画
+			particle.AddParticle(new Scatter(1.0, Vec2(100.0, 300.0) + thumb_pos.zw() * 50.0));
 		}
 
 		if (thumb_button.x == 1.0) // スティックボタン押しこみの検知
 		{
+			// 電力へ変える
 			power++;
 
 		}
 
 		if (thumb_button.y == 1.0) // スティックボタン押しこみの検知
 		{
+			// 電力へ変える
 			power++;
 
 		}
-
-
-		// 描画処理  
-
-
 
 		return 0;
 	}
