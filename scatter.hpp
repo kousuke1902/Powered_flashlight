@@ -13,12 +13,8 @@ private:
 public:
 
 	// コンストラクタ
-	Scatter(double set_life_span, Vec2 origin_graph)
+	Scatter(double set_life_span, Vec2 origin_graph): BaseParticle(set_life_span, origin_graph, Vec2(Random<double>(-1.0, 1.0), Random<double>(-1.0, 1.0)).setLength(1.0), Random<double>(50.0, 100.0))
 	{
-		life_span = set_life_span;
-		graph = origin_graph;
-		speed = Random<double>(50.0, 100.0);
-		vector = Vec2(Random<double>(-1.0, 1.0), Random<double>(-1.0, 1.0)).setLength(1.0);
 		icon = Texture{ 0xf5d2_icon, 10 };
 	}
 

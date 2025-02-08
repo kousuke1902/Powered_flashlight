@@ -103,6 +103,8 @@ private:
 			// 電力へ変える
 			power++;
 
+			// 描画
+			particle.AddParticle(new WaterRipple(3.0, Vec2(500.0, 200.0), 100.0, Palette::Red));
 		}
 
 		if (thumb_button.y == 1.0) // スティックボタン押しこみの検知
@@ -110,6 +112,8 @@ private:
 			// 電力へ変える
 			power++;
 
+			// 描画
+			particle.AddParticle(new WaterRipple(3.0, Vec2(500.0, 400.0), 100.0, Palette::Red));
 		}
 
 		return 0;
@@ -124,7 +128,7 @@ private:
 		wheel_count += count;// 累計移動量に足しこみ
 
 		 // 描画
-		draw.DrawChart(Vec2{ 400.0, 400.0 }, count);
+		draw.DrawChart(Vec2{ 400.0, 500.0 }, count);
 
 		return 0;
 	}

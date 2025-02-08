@@ -5,9 +5,8 @@
 // パーティクルの基礎クラス
 class BaseParticle
 {
-private:
 
-	DeltaTime& deltatime = DeltaTime::getInstance(); // 差分時間取得
+
 
 protected:
 
@@ -15,6 +14,7 @@ protected:
 	Vec2 graph; // 座標位置
 	Vec2 vector; // 移動方向
 	double speed; // 速度
+	DeltaTime& deltatime = DeltaTime::getInstance(); // 差分時間取得
 
 public:
 
@@ -28,12 +28,22 @@ public:
 	}
 
 	// コンストラクタ
-	BaseParticle(double set_life_span, Vec2 origin_graph, double set_speed)
+	BaseParticle(double set_life_span, Vec2 set_graph, Vec2 set_vector = Vec2(0.0, 0.0), double set_speed = 0.0)
 	{
 
 		life_span = set_life_span;
-		graph = origin_graph;
-		vector = Vec2(0.0, 1.0);
+		graph = set_graph;
+		vector = set_vector;
+		speed = set_speed;
+	}
+
+	// コンストラクタ
+	BaseParticle(double set_life_span, Vec2 set_graph, double set_speed = 0.0)
+	{
+
+		life_span = set_life_span;
+		graph = set_graph;
+		vector = Vec2(0.0, 0.0);
 		speed = set_speed;
 	}
 
