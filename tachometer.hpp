@@ -1,10 +1,11 @@
 ﻿#pragma once
 #include <Siv3D.hpp>
 
-#define _METER_SIZE_ 50
+#define _METER_SIZE_ 80
 #define _LAMP_SIZE_ 5
-#define _POINTER_SIZE_ 40
-#define _SCALE_SIZE_ 30
+#define _POINTER_SIZE_ 70
+#define _SCALE_SIZE_ 45
+#define _LAMP_POS_ 50
 
 // 出力に対して動くタコメーターのアニメーションクラス
 class Tachometer
@@ -39,7 +40,7 @@ public:
 		Line{ origin, OffsetCircular{origin, _POINTER_SIZE_, 220_deg * x - 110_deg} }.draw(LineStyle::RoundCap,10, Palette::Red);
 
 		// ランプ
-		Circle{ origin.x, origin.y + 20, _LAMP_SIZE_ }.draw(HSV(0.0, x >= 0.85 ? 1.0 : 0.0, 1.0));
+		Circle{ origin.x, origin.y + _LAMP_POS_, _LAMP_SIZE_ }.draw(HSV(0.0, x >= 0.85 ? 1.0 : 0.0, 1.0));
 
 		return 0;
 	}

@@ -4,6 +4,8 @@
 #include "draw_system.hpp"
 #include "particle_system.hpp"
 
+#define _MOUSE_POINT_SIZE_ 1000.0
+
 // 様々な操作に対する処理クラス
 class ActionSystem final
 {
@@ -35,7 +37,7 @@ private:
 		power += count; // 電力充電
 
 		// 描画処理
-		draw.DrawEnergySphre(Vec2{300.0, 300.0}, count);
+		draw.DrawEnergySphre(Vec2{ 400.0, 300.0 }, count);
 
 
 		return 0;
@@ -62,8 +64,8 @@ private:
 		}
 
 		// 描画処理
-		draw.DrawTachometer(Vec2{ 300.0, 400.0 }, trigger.x);
-		draw.DrawTachometer(Vec2{ 500.0, 400.0 }, trigger.y);
+		draw.DrawTachometer(Vec2{ 207.0, 500.0 }, trigger.x);
+		draw.DrawTachometer(Vec2{ 583.0, 500.0 }, trigger.y);
 
 		return 0;
 	}
@@ -85,7 +87,7 @@ private:
 			thumb_buffer.x--;
 
 			// 描画
-			particle.AddParticle(new Scatter(1.0, Vec2(250.0, 300.0) + thumb_pos.xy() * 50.0));
+			particle.AddParticle(new Scatter(1.0, Vec2(400.0, 300.0), Vec2(thumb_pos.x, -thumb_pos.y)));
 		}
 
 		if (thumb_buffer.y >= 1.0) // 規定量を越えたか
@@ -95,7 +97,7 @@ private:
 			thumb_buffer.y--;
 
 			// 描画
-			particle.AddParticle(new Scatter(1.0, Vec2(100.0, 300.0) + thumb_pos.zw() * 50.0));
+			particle.AddParticle(new Scatter(1.0, Vec2(400.0, 300.0), Vec2(thumb_pos.z, -thumb_pos.w)));
 		}
 
 		if (thumb_button.x == 1.0) // スティックボタン押しこみの検知
@@ -128,7 +130,7 @@ private:
 		wheel_count += count;// 累計移動量に足しこみ
 
 		 // 描画
-		draw.DrawChart(Vec2{ 400.0, 500.0 }, count);
+		draw.DrawChart(Vec2{ 500.0, 200.0 }, count);
 
 		return 0;
 	}
@@ -141,15 +143,15 @@ private:
 		mouse_buffer += count; // マウス移動量差分加算
 
 		// 差分計算
-		if (mouse_buffer >= 10.0)
+		if (mouse_buffer >= _MOUSE_POINT_SIZE_)
 		{
-			double ratio = mouse_buffer / 10.0;
-			mouse_buffer -= ratio * 10.0;
+			double ratio = mouse_buffer / _MOUSE_POINT_SIZE_;
+			mouse_buffer -= ratio * _MOUSE_POINT_SIZE_;
 			power += int(ratio);
 		}
 
 		// 描画
-		draw.DrawPistonEngine(Vec2{ 200.0, 200.0 }, mouse_count);
+		draw.DrawPistonEngine(Vec2{ 20.0, 450.0 }, mouse_count);
 
 		return 0;
 	}

@@ -48,7 +48,7 @@ public:
 		// ボタン入力時ランダムな距離を増やす
 		for (int step = 0; step < x; ++step)
 		{
-			lengths[Random<size_t>(_MAX_SPHRE_POINTS_ - 1)] = 50.0;
+			lengths[Random<size_t>(_MAX_SPHRE_POINTS_ - 1)] = 80.0;
 
 		}
 
@@ -56,7 +56,7 @@ public:
 	}
 
 	// origin座標にスフィアを形成する
-	int Draw(Vec2 origin)
+	int Draw(Vec2 graph)
 	{
 		Array<Vec2> sphre_points; // 合算したスフィアの点群形状
 
@@ -65,7 +65,7 @@ public:
 		{
 			const double theta = (step * piece);
 
-			sphre_points << OffsetCircular{ origin, _SPHRE_SIZE_ + lengths[step], theta};
+			sphre_points << OffsetCircular{ graph, _SPHRE_SIZE_ + lengths[step], theta};
 
 		}
 
