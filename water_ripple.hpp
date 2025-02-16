@@ -14,7 +14,7 @@ private:
 public:
 
 	// コンストラクタ
-	WaterRipple(double set_life_span, Vec2 origin_graph,double set_speed, Color set_color) : BaseParticle(set_life_span, origin_graph, set_speed)
+	WaterRipple(double set_life_span, Vec2 set_graph,double set_speed, Color set_color) : BaseParticle(set_life_span, set_graph, set_speed)
 	{
 		color = set_color;
 		start_time = set_life_span;

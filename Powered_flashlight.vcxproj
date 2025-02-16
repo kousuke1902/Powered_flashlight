@@ -328,11 +328,13 @@
     <ClInclude Include="action_system.hpp" />
     <ClInclude Include="app_startup.hpp" />
     <ClInclude Include="base_particle.hpp" />
+    <ClInclude Include="bubble.hpp" />
     <ClInclude Include="chart.hpp" />
     <ClInclude Include="delta_time.hpp" />
     <ClInclude Include="draw_system.hpp" />
     <ClInclude Include="energy_sphre.hpp" />
     <ClInclude Include="game_input.hpp" />
+    <ClInclude Include="monitor.hpp" />
     <ClInclude Include="particle_system.hpp" />
     <ClInclude Include="piston_engine.hpp" />
     <ClInclude Include="scatter.hpp" />

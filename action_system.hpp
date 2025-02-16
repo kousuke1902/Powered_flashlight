@@ -23,6 +23,7 @@ private:
 	int wheel_count; // マウスホイールの累計移動量
 	double mouse_count; // マウス移動量
 	double mouse_buffer; // マウス移動量差分
+	bool light_switch; // 灯りのONOFF
 
 	GameInput& input = GameInput::getInstance();
 	DrawSystem& draw = DrawSystem::getInstance();
@@ -37,8 +38,8 @@ private:
 		power += count; // 電力充電
 
 		// 描画処理
-		draw.DrawEnergySphre(Vec2{ 400.0, 300.0 }, count);
-
+		//draw.DrawEnergySphre(Vec2{ 400.0, 300.0 }, count);
+		if (count > 0)particle.AddParticle(new Bubble(3.0, Vec2{ 400.0, 300.0 }, 100.0, 120.0));
 
 		return 0;
 	}
@@ -156,7 +157,12 @@ private:
 		return 0;
 	}
 
+	int MonitorAction()
+	{
+		draw.DrawMonitor(Vec2(400.0, 100.0), power, false);
 
+		return 0;
+	}
 
 public:
 
@@ -224,7 +230,7 @@ public:
 	{
 		// 初期化作業
 		power = 0;
-
+		light_switch = false;
 
 		return 0;
 	}
@@ -237,6 +243,7 @@ public:
 		ThumbAction();
 		WheelAction();
 		MouseAction();
+		MonitorAction();
 
 		return 0;
 	}

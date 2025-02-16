@@ -854,5 +854,11 @@
     <ClInclude Include="water_ripple.hpp">
       <Filter>Header Files\Particle</Filter>
     </ClInclude>
+    <ClInclude Include="bubble.hpp">
+      <Filter>Header Files\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="monitor.hpp">
+      <Filter>Header Files\DrawGraph</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

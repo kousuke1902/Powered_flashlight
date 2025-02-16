@@ -4,6 +4,7 @@
 #include "tachometer.hpp"
 #include "piston_engine.hpp"
 #include "chart.hpp"
+#include "monitor.hpp"
 
 // 描画処理関連の操作クラス
 class DrawSystem final
@@ -18,7 +19,7 @@ private:
 	Tachometer tacho;
 	PistonEngine engine;
 	Chart chart;
-	
+	Monitor monitor;
 
 public:
 
@@ -60,6 +61,15 @@ public:
 	int DrawChart(Vec2 origin, int x)
 	{
 		chart.Draw(origin, x);
+		return 0;
+	}
+
+	// モニターの描画
+	int DrawMonitor(Vec2 graph, int count, bool flag)
+	{
+		monitor.PhaseCheck(flag);
+		monitor.PhaseTimer();
+		monitor.Draw(graph, count);
 		return 0;
 	}
 
