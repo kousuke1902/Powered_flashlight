@@ -22,6 +22,7 @@ void Main()
 
 
 	ActionSystem& action = ActionSystem::getInstance();
+	DrawSystem& draw = DrawSystem::getInstance();
 	ParticleSystem& particle = ParticleSystem::getInstance();
 	DeltaTime& delta_time = DeltaTime::getInstance();
 
@@ -35,6 +36,7 @@ void Main()
 		Print(delta_time.ShowDeltaTime());
 
 		action.Update();
+		draw.Update();
 		particle.Update();
 	}
 }

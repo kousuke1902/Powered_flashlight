@@ -1,7 +1,6 @@
 ﻿#pragma once
 #include <Siv3D.hpp>
 #include "game_input.hpp"
-#include "draw_system.hpp"
 #include "particle_system.hpp"
 
 #define _MOUSE_POINT_SIZE_ 1000.0
@@ -23,11 +22,11 @@ private:
 	int wheel_count; // マウスホイールの累計移動量
 	double mouse_count; // マウス移動量
 	double mouse_buffer; // マウス移動量差分
-	bool light_switch; // 灯りのONOFF
 
 	GameInput& input = GameInput::getInstance();
-	DrawSystem& draw = DrawSystem::getInstance();
 	ParticleSystem& particle = ParticleSystem::getInstance();
+
+
 
 	// ボタン押しアクション
 	int PushAction()
@@ -63,10 +62,6 @@ private:
 			power++;
 			trigger_buffer.y--;
 		}
-
-		// 描画処理
-		draw.DrawTachometer(Vec2{ 207.0, 500.0 }, trigger.x);
-		draw.DrawTachometer(Vec2{ 583.0, 500.0 }, trigger.y);
 
 		return 0;
 	}
@@ -130,9 +125,6 @@ private:
 		power += count; // 電力加算
 		wheel_count += count;// 累計移動量に足しこみ
 
-		 // 描画
-		draw.DrawChart(Vec2{ 500.0, 200.0 }, count);
-
 		return 0;
 	}
 
@@ -151,15 +143,12 @@ private:
 			power += int(ratio);
 		}
 
-		// 描画
-		draw.DrawPistonEngine(Vec2{ 20.0, 450.0 }, mouse_count);
-
 		return 0;
 	}
 
 	int MonitorAction()
 	{
-		draw.DrawMonitor(Vec2(400.0, 100.0), power, false);
+		
 
 		return 0;
 	}
@@ -225,12 +214,26 @@ public:
 		return wheel_count;
 	}
 
+	// マウスの累計移動量
+	const int ShowMouseCursorCount()
+	{
+
+		return mouse_count;
+	}
+
 	// 初期設定
 	int Startup()
 	{
 		// 初期化作業
-		power = 0;
-		light_switch = false;
+		power = 0; // 貯めこんだ電力
+		push_count = 0; // ボタン押し回数
+		trigger_buffer = Vec2{ 0.0, 0.0 }; // トリガー押し込みの累積差分
+		trigger_count = Vec2{ 0.0, 0.0 }; // 総トリガーの押し込み
+		thumb_buffer = Vec2{ 0.0, 0.0 }; // スティック累計移動差分
+		thumb_count = Vec2{ 0.0, 0.0 }; // スティック累計移動量
+		wheel_count = 0; // マウスホイールの累計移動量
+		mouse_count = 0.0; // マウス移動量
+		mouse_buffer = 0.0; // マウス移動量差分
 
 		return 0;
 	}
