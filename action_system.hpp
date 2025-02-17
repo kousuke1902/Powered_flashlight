@@ -3,7 +3,7 @@
 #include "game_input.hpp"
 #include "particle_system.hpp"
 
-#define _MOUSE_POINT_SIZE_ 1000.0
+#define _MOUSE_POINT_SIZE_  1000.0
 
 // 様々な操作に対する処理クラス
 class ActionSystem final
@@ -22,6 +22,7 @@ private:
 	int wheel_count; // マウスホイールの累計移動量
 	double mouse_count; // マウス移動量
 	double mouse_buffer; // マウス移動量差分
+	int phase; // モニターのフェーズ
 
 	GameInput& input = GameInput::getInstance();
 	ParticleSystem& particle = ParticleSystem::getInstance();
@@ -146,6 +147,7 @@ private:
 		return 0;
 	}
 
+	// モニター処理
 	int MonitorAction()
 	{
 		
@@ -168,54 +170,54 @@ public:
 	}
 
 	// 電力の閲覧
-	const int ShowPower()
+	int ShowPower() const
 	{
 		return power;
 	}
 
 	// ボタン押し数の閲覧
-	const int ShowPushCount()
+	int ShowPushCount() const
 	{
 		return push_count;
 	}
 
 	// トリガー総押し込み量
-	const Vec2 ShowTriggerCount()
+	Vec2 ShowTriggerCount() const
 	{
 
 		return trigger_count;
 	}
 
 	// トリガーの累積差分量
-	const Vec2 ShowTriggerBuffer()
+	Vec2 ShowTriggerBuffer() const
 	{
 
 		return trigger_buffer;
 	}
 
 	// スティックの累計移動量
-	const Vec2 ShowThumbCount()
+	Vec2 ShowThumbCount() const
 	{
 
 		return thumb_count;
 	}
 
 	// スティックの累計移動差分
-	const Vec2 ShowThumbBuffer()
+	Vec2 ShowThumbBuffer() const 
 	{
 
 		return thumb_buffer;
 	}
 
 	// マウスホイールの累計移動量
-	const int ShowMouseWheelCount()
+	int ShowMouseWheelCount() const
 	{
 
 		return wheel_count;
 	}
 
 	// マウスの累計移動量
-	const int ShowMouseCursorCount()
+	double ShowMouseCursorCount() const
 	{
 
 		return mouse_count;
@@ -234,6 +236,7 @@ public:
 		wheel_count = 0; // マウスホイールの累計移動量
 		mouse_count = 0.0; // マウス移動量
 		mouse_buffer = 0.0; // マウス移動量差分
+		phase = 0; // 遷移フェーズ
 
 		return 0;
 	}

@@ -50,6 +50,7 @@ public:
 		else if (num == 15)car = Texture{ 0xF15EB_icon, 50 }; // レジカート
 		else if (num == 16)car = Texture{ 0xF0D79_icon, 50 }; // ゴーカート
 		else if (num == 17)car = Texture{ 0xF1677_icon, 50 }; // カタツムリ
+
 	}
 
 	~Monitor(){}
@@ -110,7 +111,7 @@ public:
 	int Draw(Vec2 graph, int count)
 	{
 
-		RoundRect{ Arg::center(graph), 400.0, 140.0, 5.0 }.draw(Palette::Olivedrab);
+		
 		
 
 		// フェーズ0 カウンター表示フェーズ
@@ -148,7 +149,7 @@ public:
 		}
 
 
-		RoundRect{ Arg::center(graph), 400.0, 140.0, 5.0 }.drawFrame(5.0, Palette::Black);
+		
 
 		return 0;
 	}

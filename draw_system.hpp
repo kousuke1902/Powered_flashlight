@@ -58,9 +58,14 @@ private:
 	// モニターの描画
 	int DrawMonitor(Vec2 graph, int count, bool flag)
 	{
+		RoundRect{ Arg::center(graph), 400.0, 140.0, 5.0 }.draw(Palette::Olivedrab);
+
 		monitor.PhaseCheck(flag);
 		monitor.PhaseTimer();
 		monitor.Draw(graph, count);
+
+		RoundRect{ Arg::center(graph), 400.0, 140.0, 5.0 }.drawFrame(5.0, Palette::Black);
+
 		return 0;
 	}
 
@@ -95,7 +100,7 @@ public:
 		DrawTachometer(Vec2{ 583.0, 500.0 }, trigger.y);
 
 		// チャート
-		DrawChart(Vec2{ 500.0, 200.0 }, input.MouseWheelAbsDetect());
+		DrawChart(Vec2{ 500.0, 200.0 }, (int)input.MouseWheelAbsDetect());
 
 		// ピストンエンジン
 		DrawPistonEngine(Vec2{ 20.0, 450.0 }, action.ShowMouseCursorCount());
