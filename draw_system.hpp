@@ -17,52 +17,20 @@ private:
 	DrawSystem() = default; // コンストラクタ
 	~DrawSystem() = default; // デストラクタ
 
-	EnergySphre sphre;
-	Tachometer tacho;
-	PistonEngine engine;
 	Chart chart;
 	Monitor monitor;
 
 	ActionSystem& action = ActionSystem::getInstance();
 	GameInput& input = GameInput::getInstance();
 
-	// エネルギー球の描画処理 x=ボタン押し数
-	int DrawEnergySphre(Vec2 origin, int x)
-	{
-		sphre.MovementPoints(x);
-		sphre.Draw(origin);
-		return 0;
-	}
-
-	// タコメーターの描画処理 x=針の振れ幅
-	int DrawTachometer(Vec2 origin, double x)
-	{
-		tacho.Draw(origin, x);
-		return 0;
-	}
-
-	// ピストンエンジンの描画
-	int DrawPistonEngine(Vec2 origin, double x)
-	{
-		engine.Draw(origin, x);
-		return 0;
-	}
-
-	// チャートグラフの描画
-	int DrawChart(Vec2 origin, int x)
-	{
-		chart.Draw(origin, x);
-		return 0;
-	}
 
 	// モニターの描画
-	int DrawMonitor(Vec2 graph, int count, bool flag)
+	int DrawMonitor(Vec2 graph, int count)
 	{
 		RoundRect{ Arg::center(graph), 400.0, 140.0, 5.0 }.draw(Palette::Olivedrab);
 
-		monitor.PhaseCheck(flag);
-		monitor.PhaseTimer();
-		monitor.Draw(graph, count);
+
+		monitor.DrawCounter(graph, count);
 
 		RoundRect{ Arg::center(graph), 400.0, 140.0, 5.0 }.drawFrame(5.0, Palette::Black);
 
@@ -96,17 +64,17 @@ public:
 	{
 		const Vec4 trigger = input.TriggerDetect(); // トリガー押し込み計測
 		// タコメーター
-		DrawTachometer(Vec2{ 207.0, 500.0 }, trigger.x);
-		DrawTachometer(Vec2{ 583.0, 500.0 }, trigger.y);
+		Tachometer().Draw(Vec2{ 207.0, 500.0 }, trigger.x);
+		Tachometer().Draw(Vec2{ 583.0, 500.0 }, trigger.y);
 
 		// チャート
-		DrawChart(Vec2{ 500.0, 200.0 }, (int)input.MouseWheelAbsDetect());
+		chart.Draw(Vec2{ 500.0, 200.0 }, (int)input.MouseWheelAbsDetect());
 
 		// ピストンエンジン
-		DrawPistonEngine(Vec2{ 20.0, 450.0 }, action.ShowMouseCursorCount());
+		PistonEngine().Draw(Vec2{ 20.0, 450.0 }, action.ShowMouseCursorCount());
 
 		// モニター
-		DrawMonitor(Vec2{ 400.0, 100.0 }, action.ShowPower(), false);
+		DrawMonitor(Vec2{ 400.0, 100.0 }, action.ShowPower());
 		return 0;
 	}
 

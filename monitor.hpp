@@ -8,9 +8,6 @@ class Monitor
 {
 private:
 
-	int phase; // 状態
-	double phase_timer; // フェーズ遷移用タイマー
-	bool timer_flag; // カウント可能フラグ
 	Font counter_font; // 文字描画
 	Font distance_font; // 移動距離描画
 	Texture car; // アイコン
@@ -22,9 +19,6 @@ public:
 
 	Monitor()
 	{
-		phase = 1;
-		phase_timer = 0.0;
-		timer_flag = true;
 		counter_font = Font{ 50 };
 		distance_font = Font{ 30 };
 
@@ -55,101 +49,13 @@ public:
 
 	~Monitor(){}
 
-	// フェーズ遷移状態
-	int PhaseCheck(bool flag)
-	{
-
-		// フェーズ0 カウンターの場合
-		if (phase == 0)
-		{
-			if (flag == true)
-			{
-				timer_flag = true;
-				phase++;
-			}
-
-		}
-
-		// フェーズ1 遷移アニメーション
-		if (phase == 1)
-		{
-			if (phase_timer > 180_deg)
-			{
-				timer_flag = false;
-				phase_timer = 0.0;
-				phase++;
-			}
-
-		}
-
-		// フェーズ2 車走行
-		if (phase == 2)
-		{
-
-
-		}
-
-
-		return 0;
-	}
-
-	// フェーズ間時間計測
-	int PhaseTimer()
-	{
-		if(timer_flag == true)phase_timer += deltatime.ShowDeltaTime();
-		return 0;
-	}
-
-	// 描画する距離の設定
-	int DistanceSet()
-	{
-
-		return 0;
-	}
 
 	// 描画
-	int Draw(Vec2 graph, int count)
+	int DrawCounter(Vec2 graph, int count)
 	{
 
-		
-		
+		counter_font(count, U" mosh").draw(Arg::rightCenter(graph + Vec2(190.0, 0.0)));
 
-		// フェーズ0 カウンター表示フェーズ
-		if (phase == 0)counter_font(count, U" mosh").draw(Arg::rightCenter(graph + Vec2(190.0, 0.0)));
-
-		// フェーズ1 遷移アニメーションフェーズ
-		else if (phase == 1)
-		{
-
-			// Sin 90度まで右へ拡大
-			if (phase_timer < 90_deg)
-			{
-				double line = Sin(phase_timer);
-				RoundRect{ graph + Vec2{-200.0, -70.0},line * 400.0, 140.0, 5.0 }.draw();
-				counter_font(count, U" mosh").draw(Arg::rightCenter(graph + Vec2(190.0, 0.0)));
-			}
-			// Sin 90度以降から左から縮小
-			else if (phase_timer >= 90_deg)
-			{
-				double line = Sin(phase_timer - 90_deg);
-				car.draw(Arg::bottomCenter(graph + Vec2{ -160 + line * 160.0, 50.0 }));
-				Line{ graph + Vec2{-200.0, 50.0}, graph + Vec2{200.0, 50.0} }.draw(4.0);
-				distance_font(distance, U"cm").draw(Arg::rightCenter(graph + Vec2{ 190.0, -50.0 }));
-				RoundRect{ graph + Vec2{-200.0 + line * 400.0, -70.0},400.0 - line * 400.0, 140.0, 5.0 }.draw();
-			}
-
-		}
-
-		// フェーズ2 車走行
-		else if (phase == 2)
-		{
-			car.draw(Arg::bottomCenter( graph + Vec2{0.0, 50.0}));
-			distance_font(distance, U"cm").draw(Arg::rightCenter(graph + Vec2{ 190.0, -50.0 }));
-			Line{ graph + Vec2{-200.0, 50.0}, graph + Vec2{200.0, 50.0} }.draw(4.0);
-		}
-
-
-		
 
 		return 0;
 	}

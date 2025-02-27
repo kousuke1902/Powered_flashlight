@@ -23,6 +23,9 @@ private:
 	double mouse_count; // マウス移動量
 	double mouse_buffer; // マウス移動量差分
 	int phase; // モニターのフェーズ
+	double bar1_volume; // ミニゲームの数値
+	double bar2_volume; // ミニゲームの数値
+	double bar3_volume; // ミニゲームの数値
 
 	GameInput& input = GameInput::getInstance();
 	ParticleSystem& particle = ParticleSystem::getInstance();
@@ -150,6 +153,54 @@ private:
 	// モニター処理
 	int MonitorAction()
 	{
+		// 範囲内でのクリック検知
+		bool click_flag = (RoundRect{ Arg::center(400.0, 100.0), 400.0, 140.0, 5.0 }.draw().mouseOver() && MouseL.down());
+		
+
+		// フェーズ0 カウンター表示
+		if (phase == 0)
+		{
+			// フェーズ移行
+			if (click_flag == true)phase++;
+		}
+
+		// フェーズ1 ミニゲーム
+		else if (phase == 1)
+		{
+			// ミニゲーム数値
+			bar1_volume = Periodic::Sawtooth0_1(5s);
+
+			// フェーズ移行
+			if (click_flag == true)phase++;
+		}
+
+		// フェーズ2 ミニゲーム
+		else if (phase == 2)
+		{
+			// ミニゲーム数値
+			bar2_volume = Periodic::Sawtooth0_1(4s);
+
+			// フェーズ移行
+			if (click_flag == true)phase++;	
+		}
+
+		// フェーズ3 ミニゲーム
+		else if (phase == 3)
+		{
+			bar3_volume = Periodic::Sawtooth0_1(3s);
+
+			// フェーズ移行
+			if (click_flag == true)phase++;
+		}
+
+		// フェーズ4 結果
+		else if (phase == 4)
+		{
+
+
+
+		}
+
 		
 
 		return 0;
@@ -222,6 +273,14 @@ public:
 
 		return mouse_count;
 	}
+
+	// 現在フェーズの確認
+	int ShowPhase() const
+	{
+
+		return phase;
+	}
+
 
 	// 初期設定
 	int Startup()
