@@ -2,6 +2,7 @@
 #include <Siv3D.hpp>
 #include "game_input.hpp"
 #include "particle_system.hpp"
+#include "delta_time.hpp"
 
 #define _MOUSE_POINT_SIZE_  1000.0
 
@@ -27,10 +28,11 @@ private:
 	double bar2_volume; // ミニゲームの数値
 	double bar3_volume; // ミニゲームの数値
 	double movement; // 移動距離
+	double max_movement; // 最大移動距離
 
 	GameInput& input = GameInput::getInstance();
 	ParticleSystem& particle = ParticleSystem::getInstance();
-
+	DeltaTime& deltatime = DeltaTime::getInstance();
 
 
 	// ボタン押しアクション
@@ -198,17 +200,26 @@ private:
 		else if (phase == 4)
 		{
 
-			if (click_flag == true)phase++;
-
+			if (click_flag == true)
+			{
+				phase++;
+				max_movement = power * bar1_volume * bar2_volume * bar3_volume;
+			}
 		}
 
 		// フェーズ5 走行
 		else if (phase == 5)
 		{
-
-			phase = 0;
+			movement += deltatime.ShowDeltaTime();
+			if(max_movement <= movement)phase++;
+			
 		}
-		
+
+		else if (phase == 6)
+		{
+
+
+		}
 
 		return 0;
 	}

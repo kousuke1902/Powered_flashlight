@@ -129,7 +129,7 @@ public:
 		// フェーズ4 エンジン始動
 		else if (phase == 4)
 		{
-			distance_font(U"0cm").draw(Arg::rightCenter(580.0, 60.0));
+			distance_font(U"0.0m").draw(Arg::rightCenter(580.0, 60.0));
 			sub_font(U"クリックしてエンジン始動").drawAt(400.0, 80.0);
 
 			carts.Draw(Vec2{ 400.0,150.0 }, false);
@@ -138,9 +138,18 @@ public:
 		// フェーズ5 走行
 		else if (phase == 5)
 		{
-			distance_font(action.ShouMovement(), U"cm").draw(Arg::rightCenter(580.0, 60.0));
+			distance_font(U"{:.1f}"_fmt(action.ShouMovement()), U"m").draw(Arg::rightCenter(580.0, 60.0));
 
 			carts.Draw(Vec2{ 400.0,150.0 }, true);
+		}
+
+		// フェーズ6
+		else if (phase == 6)
+		{
+			distance_font(U"{:.1f}"_fmt(action.ShouMovement()), U"m").draw(Arg::rightCenter(580.0, 60.0));
+
+			carts.Draw(Vec2{ 400.0,150.0 }, false);
+
 		}
 
 		RoundRect{ Arg::center(400.0, 100.0), 400.0, 140.0, 5.0 }.drawFrame(5.0, Palette::Black);
