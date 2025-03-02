@@ -26,6 +26,7 @@ private:
 	double bar1_volume; // ミニゲームの数値
 	double bar2_volume; // ミニゲームの数値
 	double bar3_volume; // ミニゲームの数値
+	double movement; // 移動距離
 
 	GameInput& input = GameInput::getInstance();
 	ParticleSystem& particle = ParticleSystem::getInstance();
@@ -168,7 +169,7 @@ private:
 		else if (phase == 1)
 		{
 			// ミニゲーム数値
-			bar1_volume = Periodic::Sawtooth0_1(5s);
+			bar1_volume = Periodic::Sawtooth0_1(2s);
 
 			// フェーズ移行
 			if (click_flag == true)phase++;
@@ -178,7 +179,7 @@ private:
 		else if (phase == 2)
 		{
 			// ミニゲーム数値
-			bar2_volume = Periodic::Sawtooth0_1(4s);
+			bar2_volume = Periodic::Sawtooth0_1(1s);
 
 			// フェーズ移行
 			if (click_flag == true)phase++;	
@@ -187,20 +188,26 @@ private:
 		// フェーズ3 ミニゲーム
 		else if (phase == 3)
 		{
-			bar3_volume = Periodic::Sawtooth0_1(3s);
+			bar3_volume = Periodic::Sawtooth0_1(0.5s);
 
 			// フェーズ移行
 			if (click_flag == true)phase++;
 		}
 
-		// フェーズ4 結果
+		// フェーズ4 エンジン始動
 		else if (phase == 4)
 		{
 
-
+			if (click_flag == true)phase++;
 
 		}
 
+		// フェーズ5 走行
+		else if (phase == 5)
+		{
+
+			phase = 0;
+		}
 		
 
 		return 0;
@@ -281,6 +288,33 @@ public:
 		return phase;
 	}
 
+	// ミニゲーム1のサイズ確認
+	double ShowVolume1() const
+	{
+		return bar1_volume;
+
+	}
+
+	// ミニゲーム2のサイズ確認
+	double ShowVolume2() const
+	{
+		return bar2_volume;
+
+	}
+
+	// ミニゲーム3のサイズ確認
+	double ShowVolume3() const
+	{
+		return bar3_volume;
+
+	}
+
+	// 移動距離の参照
+	double ShouMovement() const
+	{
+
+		return movement;
+	}
 
 	// 初期設定
 	int Startup()

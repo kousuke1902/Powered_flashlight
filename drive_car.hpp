@@ -3,8 +3,8 @@
 #include "delta_time.hpp"
 
 
-// 数値とロケットのアニメーションクラス
-class Monitor
+// 車のアニメーションクラス
+class DriveCar
 {
 private:
 
@@ -17,7 +17,7 @@ private:
 
 public:
 
-	Monitor()
+	DriveCar()
 	{
 		counter_font = Font{ 50 };
 		distance_font = Font{ 30 };
@@ -47,14 +47,14 @@ public:
 
 	}
 
-	~Monitor(){}
+	~DriveCar(){}
 
 
 	// 描画
-	int DrawCounter(Vec2 graph, int count)
+	int Draw(Vec2 graph, bool accel_flag)
 	{
 
-		counter_font(count, U" mosh").draw(Arg::rightCenter(graph + Vec2(190.0, 0.0)));
+		car.draw(Arg::bottomCenter(graph));
 
 
 		return 0;

@@ -7,13 +7,10 @@
 // 初期設定実行用関数
 const int StartUp()
 {
-	GameInput& input = GameInput::getInstance();
-	ActionSystem& action = ActionSystem::getInstance();
-	DrawSystem& draw = DrawSystem::getInstance();
+	GameInput::getInstance().Startup();
+	ActionSystem::getInstance().Startup();
+	DrawSystem::getInstance().Startup();
 
-	input.Startup();
-	action.Startup();
-	draw.StartUp();
 
 	return 0;
 }
