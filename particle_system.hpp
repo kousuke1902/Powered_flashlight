@@ -5,6 +5,7 @@
 #include "water_ripple.hpp"
 #include "water_ripple.hpp"
 #include "bubble.hpp"
+#include "wind.hpp"
 
 // パーティクル処理関連の操作クラス
 class ParticleSystem final

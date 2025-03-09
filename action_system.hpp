@@ -45,7 +45,7 @@ private:
 
 		// 描画処理
 		//draw.DrawEnergySphre(Vec2{ 400.0, 300.0 }, count);
-		if (count > 0)particle.AddParticle(new Bubble(3.0, Vec2{ 400.0, 300.0 }, 100.0, 120.0));
+		 if (count > 0)particle.AddParticle(new Wind(3.0, Vec2{ 400.0, 300.0 }));
 
 		return 0;
 	}
@@ -215,6 +215,7 @@ private:
 			
 		}
 
+		// 結果
 		else if (phase == 6)
 		{
 
@@ -353,7 +354,7 @@ public:
 		ThumbAction();
 		WheelAction();
 		MouseAction();
-		MonitorAction();
+		
 
 		return 0;
 	}

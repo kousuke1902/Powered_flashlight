@@ -28,7 +28,7 @@ public:
 	}
 
 	// コンストラクタ
-	BaseParticle(double set_life_span, Vec2 set_graph, Vec2 set_vector = Vec2(0.0, 0.0), double set_speed = 0.0)
+	BaseParticle(double set_life_span, Vec2 set_graph, Vec2 set_vector, double set_speed = 0.0)
 	{
 
 		life_span = set_life_span;

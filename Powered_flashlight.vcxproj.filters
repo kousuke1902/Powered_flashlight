@@ -860,5 +860,11 @@
     <ClInclude Include="drive_car.hpp">
       <Filter>Header Files\DrawGraph</Filter>
     </ClInclude>
+    <ClInclude Include="wind.hpp">
+      <Filter>Header Files\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="wind_up.hpp">
+      <Filter>Header Files\DrawGraph</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
