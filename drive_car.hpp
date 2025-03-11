@@ -2,7 +2,7 @@
 #include <Siv3D.hpp>
 #include "delta_time.hpp"
 
-#define _CAR_SIZE_ 150
+#define _CAR_SIZE_ 250
 
 // 車のアニメーションクラス
 class DriveCar
@@ -16,7 +16,7 @@ public:
 
 	DriveCar()
 	{
-		int num = Random(16);
+		int num = Random(17);
 
 		if (num == 0)car = Texture{ 0xF07AB_icon, _CAR_SIZE_ }; // 乗用車
 		else if (num == 1)car = Texture{ 0xF07A9_icon, _CAR_SIZE_ }; // ハッチバック車
@@ -44,7 +44,6 @@ public:
 	// 高さサイズ
 	const int Height()
 	{
-
 		return car.height();
 	}
 
@@ -57,15 +56,13 @@ public:
 	// 描画
 	int Draw(Vec2 graph, bool accel_flag)
 	{
-
 		car.draw(Arg::bottomCenter(graph));
-
 
 		return 0;
 	}
 
 	// 描画
-	int Draw(double x, double y, bool accel_flag)
+	int Draw(double x, double y)
 	{
 
 		car.draw(Arg::bottomCenter(x, y));

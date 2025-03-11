@@ -14,7 +14,8 @@ private:
 	ActionSystem() = default; // コンストラクタ
 	~ActionSystem() = default; // デストラクタ
 
-	int power; // 貯めこんだ電力
+	int power; // 貯めこんだ力
+	bool power_flag; // 力の発生の検知
 	int push_count; // ボタン押し回数
 	Vec2 trigger_buffer; // トリガー押し込みの累積差分
 	Vec2 trigger_count; // 総トリガーの押し込み
@@ -23,15 +24,20 @@ private:
 	int wheel_count; // マウスホイールの累計移動量
 	double mouse_count; // マウス移動量
 	double mouse_buffer; // マウス移動量差分
-	int phase; // モニターのフェーズ
+
 	double bar1_volume; // ミニゲームの数値
 	double bar2_volume; // ミニゲームの数値
 	double bar3_volume; // ミニゲームの数値
+
 	double movement; // 移動距離
 	double max_movement; // 最大移動距離
 
+	bool wind_up_flag; // ねじ巻きフラグ
+	double wind_up_volume; // ねじ巻き遷移度(位置，透過度)
+
+
+
 	GameInput& input = GameInput::getInstance();
-	ParticleSystem& particle = ParticleSystem::getInstance();
 	DeltaTime& deltatime = DeltaTime::getInstance();
 
 
@@ -43,9 +49,7 @@ private:
 		push_count += count; // ボタン押し計測
 		power += count; // 電力充電
 
-		// 描画処理
-		//draw.DrawEnergySphre(Vec2{ 400.0, 300.0 }, count);
-		 if (count > 0)particle.AddParticle(new Wind(3.0, Vec2{ 400.0, 300.0 }));
+		if (0 < count)power_flag = true;
 
 		return 0;
 	}
@@ -61,12 +65,14 @@ private:
 		if (trigger_buffer.x >= 1.0) // 規定量を越えた際に電力へ変える
 		{
 			power++;
+			power_flag = true;
 			trigger_buffer.x--;
 		}
 
 		if (trigger_buffer.y >= 1.0) // 規定量を越えた際に電力へ変える
 		{
 			power++;
+			power_flag = true;
 			trigger_buffer.y--;
 		}
 
@@ -87,38 +93,34 @@ private:
 		{
 			// 電力へ変える
 			power++;
+			power_flag = true;
 			thumb_buffer.x--;
 
-			// 描画
-			particle.AddParticle(new Scatter(1.0, Vec2(400.0, 300.0), Vec2(thumb_pos.x, -thumb_pos.y)));
 		}
 
 		if (thumb_buffer.y >= 1.0) // 規定量を越えたか
 		{
 			// 電力へ変える
 			power++;
+			power_flag = true;
 			thumb_buffer.y--;
 
-			// 描画
-			particle.AddParticle(new Scatter(1.0, Vec2(400.0, 300.0), Vec2(thumb_pos.z, -thumb_pos.w)));
 		}
 
 		if (thumb_button.x == 1.0) // スティックボタン押しこみの検知
 		{
 			// 電力へ変える
 			power++;
+			power_flag = true;
 
-			// 描画
-			particle.AddParticle(new WaterRipple(3.0, Vec2(500.0, 200.0), 100.0, Palette::Red));
 		}
 
 		if (thumb_button.y == 1.0) // スティックボタン押しこみの検知
 		{
 			// 電力へ変える
 			power++;
+			power_flag = true;
 
-			// 描画
-			particle.AddParticle(new WaterRipple(3.0, Vec2(500.0, 400.0), 100.0, Palette::Red));
 		}
 
 		return 0;
@@ -131,6 +133,9 @@ private:
 
 		power += count; // 電力加算
 		wheel_count += count;// 累計移動量に足しこみ
+
+		// 力の発生
+		if (0 < count)power_flag = true;
 
 		return 0;
 	}
@@ -148,77 +153,27 @@ private:
 			double ratio = mouse_buffer / _MOUSE_POINT_SIZE_;
 			mouse_buffer -= ratio * _MOUSE_POINT_SIZE_;
 			power += int(ratio);
+			power_flag = true;
 		}
 
 		return 0;
 	}
 
-	// モニター処理
-	int MonitorAction()
+	// ねじ巻きモードのON/OFF時の処理
+	int WindUpVolumeAction()
 	{
-		// 範囲内でのクリック検知
-		bool click_flag = (RoundRect{ Arg::center(400.0, 100.0), 400.0, 140.0, 5.0 }.draw().mouseOver() && MouseL.down());
-		
-
-		// フェーズ0 カウンター表示
-		if (phase == 0)
+		// ねじ巻きON -> 透過OFF,ねじ巻き差し込み 
+		if (wind_up_flag == true)
 		{
-			// フェーズ移行
-			if (click_flag == true)phase++;
+			if (wind_up_volume < 1.0)wind_up_volume += deltatime.ShowDeltaTime();
+			else if (1.0 < wind_up_volume)wind_up_volume = 1.0;
 		}
 
-		// フェーズ1 ミニゲーム
-		else if (phase == 1)
+		// ねじ巻きOFF -> 透過ON，ねじ巻き抜きだし
+		else if (wind_up_flag == false)
 		{
-			// ミニゲーム数値
-			bar1_volume = Periodic::Sawtooth0_1(2s);
-
-			// フェーズ移行
-			if (click_flag == true)phase++;
-		}
-
-		// フェーズ2 ミニゲーム
-		else if (phase == 2)
-		{
-			// ミニゲーム数値
-			bar2_volume = Periodic::Sawtooth0_1(1s);
-
-			// フェーズ移行
-			if (click_flag == true)phase++;	
-		}
-
-		// フェーズ3 ミニゲーム
-		else if (phase == 3)
-		{
-			bar3_volume = Periodic::Sawtooth0_1(0.5s);
-
-			// フェーズ移行
-			if (click_flag == true)phase++;
-		}
-
-		// フェーズ4 エンジン始動
-		else if (phase == 4)
-		{
-
-			if (click_flag == true)
-			{
-				phase++;
-				max_movement = power * bar1_volume * bar2_volume * bar3_volume;
-			}
-		}
-
-		// フェーズ5 走行
-		else if (phase == 5)
-		{
-			movement += deltatime.ShowDeltaTime();
-			if(max_movement <= movement)phase++;
-			
-		}
-
-		// 結果
-		else if (phase == 6)
-		{
-
+			if (wind_up_volume > 0.0)wind_up_volume -= deltatime.ShowDeltaTime();
+			else if (0.0 > wind_up_volume) wind_up_volume = 0.0;
 
 		}
 
@@ -249,6 +204,12 @@ public:
 	int ShowPushCount() const
 	{
 		return push_count;
+	}
+
+	// ボタン押し検知
+	bool ShowPowerFlag() const
+	{
+		return power_flag;
 	}
 
 	// トリガー総押し込み量
@@ -293,13 +254,6 @@ public:
 		return mouse_count;
 	}
 
-	// 現在フェーズの確認
-	int ShowPhase() const
-	{
-
-		return phase;
-	}
-
 	// ミニゲーム1のサイズ確認
 	double ShowVolume1() const
 	{
@@ -328,12 +282,26 @@ public:
 		return movement;
 	}
 
+	// ねじ巻き遷移度(位置，透過度用)参照
+	double ShowWindUpVolume() const
+	{
+		return wind_up_volume;
+	}
+
+	// ねじ巻きモードON/OFF切り替え
+	int SwitchingWindUpFlag()
+	{
+		wind_up_flag = !wind_up_flag;
+		return 0;
+	}
+
 	// 初期設定
 	int Startup()
 	{
 		// 初期化作業
 		power = 0; // 貯めこんだ電力
 		push_count = 0; // ボタン押し回数
+		power_flag = false; // ボタン押し検知
 		trigger_buffer = Vec2{ 0.0, 0.0 }; // トリガー押し込みの累積差分
 		trigger_count = Vec2{ 0.0, 0.0 }; // 総トリガーの押し込み
 		thumb_buffer = Vec2{ 0.0, 0.0 }; // スティック累計移動差分
@@ -341,7 +309,8 @@ public:
 		wheel_count = 0; // マウスホイールの累計移動量
 		mouse_count = 0.0; // マウス移動量
 		mouse_buffer = 0.0; // マウス移動量差分
-		phase = 0; // 遷移フェーズ
+		wind_up_volume = 1.0; // ねじ巻き遷移度(位置，透過度)
+		wind_up_flag = true; // ねじ巻きフラグ
 
 		return 0;
 	}
@@ -349,13 +318,19 @@ public:
 	// 随時更新
 	int Update()
 	{
-		PushAction();
-		TriggerAction();
-		ThumbAction();
-		WheelAction();
-		MouseAction();
-		
+		power_flag = false;
+		WindUpVolumeAction();
 
+		if (wind_up_flag)
+		{
+			
+			PushAction();
+			TriggerAction();
+			ThumbAction();
+			WheelAction();
+			MouseAction();
+			
+		}
 		return 0;
 	}
 

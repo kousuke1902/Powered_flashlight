@@ -32,7 +32,7 @@ void Main()
 	{
 		delta_time.CatchDeltaTime();
 		ClearPrint();
-		Print(action.ShowPower());
+		Print(action.ShowWindUpVolume());
 		Print(delta_time.ShowDeltaTime());
 
 		action.Update();

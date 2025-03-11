@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <Siv3D.hpp>
 #include "action_system.hpp"
+#include "particle_system.hpp"
 #include "game_input.hpp"
 #include "energy_sphre.hpp"
 #include "tachometer.hpp"
@@ -22,13 +23,12 @@ private:
 	Font distance_font; // 移動距離描画
 	Font sub_font; // 補助文字
 
-	Texture wind_up; // ねじ巻き
-
 	Chart chart; // チャートグラフ管理
 	DriveCar carts; // 車描写
-	WindUp wind; // 
+	WindUp wind; // ねじ巻き 
 
 	ActionSystem& action = ActionSystem::getInstance();
+	ParticleSystem& particle = ParticleSystem::getInstance();
 	GameInput& input = GameInput::getInstance();
 
 
@@ -53,7 +53,6 @@ public:
 		distance_font = Font{ 30 };
 		sub_font = Font{ 20 };
 
-		wind_up = Texture{ 0xF1C23_icon, 50 };
 
 		return 0;
 	}
@@ -61,13 +60,23 @@ public:
 	// 随時更新
 	int Update()
 	{
+		// 表示
+		counter_font(action.ShowPower(), U"巻き").drawAt(400.0, 200.0);
 
-
-		carts.Draw(400.0, 400.0, false);
+		// 車両
+		carts.Draw(400.0, 500.0);
 		
-		// wind_up.scaled(1.0, 1.0).draw(Arg::bottomCenter(400.0 - carts.Width() / 1.5, 400.0 - carts.Height() / 3.0));
+		// ねじ巻き
+		double x = 420.0 - carts.Width() / 1.5;
+		double y = 500.0 - carts.Height() / 3.0;
+		double dist = action.ShowWindUpVolume();
+		wind.Draw(x + dist * 15.0, y, action.ShowPower() * 12_deg, dist);
 
-		wind.Draw(420.0 - carts.Width() / 1.5, 400.0 - carts.Height() / 3.0, 0);
+		// ねじ巻きパーティクル
+		if (action.ShowPowerFlag())particle.AddParticle(new WaterRipple(1.0, Vec2(x - 60.0, y), 50.0, Palette::Blueviolet));
+
+		// モード移行
+		if (RectF{ Arg::center(400.0, 550.0), 60 }.draw().mouseOver() && MouseL.down()) action.SwitchingWindUpFlag();
 
 		return 0;
 	}
