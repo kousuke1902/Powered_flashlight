@@ -5,6 +5,10 @@
 #include "delta_time.hpp"
 
 #define _MOUSE_POINT_SIZE_  1000.0
+#define _WINDUP_SCENE_ 0 // ねじ巻き
+#define _MINIGAME_SCENE_ 1 // ミニゲーム
+#define _RUN_SCENE_ 2 // 走行
+#define _RESULT_SCENE_ 3 // 結果発表
 
 // 様々な操作に対する処理クラス
 class ActionSystem final
@@ -25,6 +29,9 @@ private:
 	double mouse_count; // マウス移動量
 	double mouse_buffer; // マウス移動量差分
 
+	int scene; // ゲームの描画状態
+
+	int minigame_step; // ミニゲーム段階
 	double bar1_volume; // ミニゲームの数値
 	double bar2_volume; // ミニゲームの数値
 	double bar3_volume; // ミニゲームの数値
@@ -32,8 +39,9 @@ private:
 	double movement; // 移動距離
 	double max_movement; // 最大移動距離
 
-	bool wind_up_flag; // ねじ巻きフラグ
 	double wind_up_volume; // ねじ巻き遷移度(位置，透過度)
+
+	
 
 
 
@@ -163,19 +171,26 @@ private:
 	int WindUpVolumeAction()
 	{
 		// ねじ巻きON -> 透過OFF,ねじ巻き差し込み 
-		if (wind_up_flag == true)
+		if (scene == 1)
 		{
 			if (wind_up_volume < 1.0)wind_up_volume += deltatime.ShowDeltaTime();
 			else if (1.0 < wind_up_volume)wind_up_volume = 1.0;
 		}
 
 		// ねじ巻きOFF -> 透過ON，ねじ巻き抜きだし
-		else if (wind_up_flag == false)
+		else if (scene != 1)
 		{
 			if (wind_up_volume > 0.0)wind_up_volume -= deltatime.ShowDeltaTime();
 			else if (0.0 > wind_up_volume) wind_up_volume = 0.0;
 
 		}
+
+		return 0;
+	}
+
+	// ミニゲームのゲーム処理
+	int MiniGameAction()
+	{
 
 		return 0;
 	}
@@ -254,26 +269,18 @@ public:
 		return mouse_count;
 	}
 
-	// ミニゲーム1のサイズ確認
-	double ShowVolume1() const
+	// ミニゲームのサイズ確認
+	double ShowVolume() const
 	{
-		return bar1_volume;
+
+		if (minigame_step == 1)return bar1_volume;
+		else if (minigame_step == 2)return bar2_volume;
+		else if (minigame_step == 3)return bar3_volume;
+
+		return 0;
 
 	}
 
-	// ミニゲーム2のサイズ確認
-	double ShowVolume2() const
-	{
-		return bar2_volume;
-
-	}
-
-	// ミニゲーム3のサイズ確認
-	double ShowVolume3() const
-	{
-		return bar3_volume;
-
-	}
 
 	// 移動距離の参照
 	double ShouMovement() const
@@ -288,10 +295,16 @@ public:
 		return wind_up_volume;
 	}
 
-	// ねじ巻きモードON/OFF切り替え
-	int SwitchingWindUpFlag()
+
+	// ミニゲームの状態
+	int nextMiniGameStep()
 	{
-		wind_up_flag = !wind_up_flag;
+		if (minigame_step != 3)	minigame_step++;
+		else if (minigame_step == 3)
+		{
+			minigame_step = 0;
+			
+		}
 		return 0;
 	}
 
@@ -310,7 +323,7 @@ public:
 		mouse_count = 0.0; // マウス移動量
 		mouse_buffer = 0.0; // マウス移動量差分
 		wind_up_volume = 1.0; // ねじ巻き遷移度(位置，透過度)
-		wind_up_flag = true; // ねじ巻きフラグ
+
 
 		return 0;
 	}
@@ -321,7 +334,7 @@ public:
 		power_flag = false;
 		WindUpVolumeAction();
 
-		if (wind_up_flag)
+		if (scene == _WINDUP_SCENE_)
 		{
 			
 			PushAction();
@@ -330,6 +343,12 @@ public:
 			WheelAction();
 			MouseAction();
 			
+		}
+
+		else if (scene == _MINIGAME_SCENE_)
+		{
+
+
 		}
 		return 0;
 	}

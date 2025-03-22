@@ -329,6 +329,7 @@
     <ClInclude Include="app_startup.hpp" />
     <ClInclude Include="base_particle.hpp" />
     <ClInclude Include="bubble.hpp" />
+    <ClInclude Include="button.hpp" />
     <ClInclude Include="chart.hpp" />
     <ClInclude Include="delta_time.hpp" />
     <ClInclude Include="draw_system.hpp" />

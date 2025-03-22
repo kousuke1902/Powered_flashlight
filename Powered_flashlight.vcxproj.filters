@@ -866,5 +866,8 @@
     <ClInclude Include="wind_up.hpp">
       <Filter>Header Files\DrawGraph</Filter>
     </ClInclude>
+    <ClInclude Include="button.hpp">
+      <Filter>Header Files\DrawGraph</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

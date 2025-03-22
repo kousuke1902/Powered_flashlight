@@ -1,6 +1,5 @@
 ﻿#pragma once
 #include <Siv3D.hpp>
-#include "delta_time.hpp"
 
 // ねじ巻きのアニメーションクラス
 class WindUp
@@ -10,7 +9,6 @@ private:
 
 	Texture wind_up; // ねじ巻き
 
-	DeltaTime& deltatime = DeltaTime::getInstance();
 
 public:
 
