@@ -65,8 +65,6 @@ public:
 	// 随時更新
 	int Update()
 	{
-		// 表示
-		counter_font(action.ShowPower(), U"巻き").drawAt(400.0, 100.0);
 
 		// 車両
 		carts.Draw(400.0, 400.0);
@@ -85,14 +83,44 @@ public:
 		if (action_button.mouseOver() && MouseL.down())
 		{
 			action_button.Click();
+			action.nextGameStep();
 			particle.AddParticle(new WaterRipple(1.0, Cursor::PosF(), 50.0, Palette::Blueviolet));
 			
 		}
 
 		action_button.Draw();
 
-		counter_font(U"出発").drawAt(400.0, 500.0, Palette::Black);
+		// 表示
+		int current_scene = action.ShowScene();
 
+		if (current_scene == _WINDUP_SCENE_)
+		{
+			counter_font(action.ShowPower(), U"巻き").drawAt(400.0, 100.0);
+			counter_font(U"出発").drawAt(400.0, 500.0, Palette::Black);
+		}
+
+		// ミニゲーム
+		else if (current_scene == _MINIGAME_SCENE_)
+		{
+			sub_font(U"気合い入れ").drawAt(400.0, 70.0);
+			sub_font(U"ゲージが右に行ったらボタンを押そう").drawAt(400.0, 100.0);
+			Rect{ Arg::center(400, 150), 400, 50 }.draw(Palette::White);
+			Rect{ Arg::center(400, 150), 370, 40 }.draw(Palette::Black);
+
+			current_scene = action.ShowMiniGameStep();
+			if (current_scene == 0) RectF{ Arg::leftCenter(210.0, 150.0), action.ShowVolume() * 370.0, 40.0 }.draw(Palette::Orange);
+			else if (current_scene == 1) RectF{ Arg::leftCenter(210.0, 150.0), action.ShowVolume() * 370.0, 40.0 }.draw(Palette::Orangered);
+			else if (current_scene == 2) RectF{ Arg::leftCenter(210.0, 150.0), action.ShowVolume() * 370.0, 40.0 }.draw(Palette::Mediumvioletred);
+
+			counter_font(U"ストップ").drawAt(400.0, 500.0, Palette::Black);
+
+		}
+
+		// 走行
+		else if (current_scene == _RUN_SCENE_)
+		{
+
+		}
 
 		return 0;
 	}

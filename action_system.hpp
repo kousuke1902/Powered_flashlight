@@ -171,14 +171,14 @@ private:
 	int WindUpVolumeAction()
 	{
 		// ねじ巻きON -> 透過OFF,ねじ巻き差し込み 
-		if (scene == 1)
+		if (scene == _WINDUP_SCENE_)
 		{
 			if (wind_up_volume < 1.0)wind_up_volume += deltatime.ShowDeltaTime();
 			else if (1.0 < wind_up_volume)wind_up_volume = 1.0;
 		}
 
 		// ねじ巻きOFF -> 透過ON，ねじ巻き抜きだし
-		else if (scene != 1)
+		else if (scene != _WINDUP_SCENE_)
 		{
 			if (wind_up_volume > 0.0)wind_up_volume -= deltatime.ShowDeltaTime();
 			else if (0.0 > wind_up_volume) wind_up_volume = 0.0;
@@ -191,6 +191,29 @@ private:
 	// ミニゲームのゲーム処理
 	int MiniGameAction()
 	{
+		// 1回目
+		if (minigame_step == 0)
+		{
+			bar1_volume += deltatime.ShowDeltaTime() * 1.5;
+			if (bar1_volume > 1.0) bar1_volume--;
+
+		}
+
+		// 2回目
+		else if (minigame_step == 1)
+		{
+			bar2_volume += deltatime.ShowDeltaTime() * 2.0;
+			if (bar2_volume > 1.0) bar2_volume--;
+
+		}
+
+		// 3回目
+		else if (minigame_step == 2)
+		{
+			bar3_volume += deltatime.ShowDeltaTime() * 2.5;
+			if (bar3_volume > 1.0) bar3_volume--;
+
+		}
 
 		return 0;
 	}
@@ -273,14 +296,20 @@ public:
 	double ShowVolume() const
 	{
 
-		if (minigame_step == 1)return bar1_volume;
-		else if (minigame_step == 2)return bar2_volume;
-		else if (minigame_step == 3)return bar3_volume;
+		if (minigame_step == 0)return bar1_volume;
+		else if (minigame_step == 1)return bar2_volume;
+		else if (minigame_step == 2)return bar3_volume;
 
 		return 0;
 
 	}
 
+	// ミニゲームの段階
+	int ShowMiniGameStep()
+	{
+
+		return minigame_step;
+	}
 
 	// 移動距離の参照
 	double ShouMovement() const
@@ -296,17 +325,49 @@ public:
 	}
 
 
-	// ミニゲームの状態
-	int nextMiniGameStep()
+	// ゲームの遷移処理
+	int nextGameStep()
 	{
-		if (minigame_step != 3)	minigame_step++;
-		else if (minigame_step == 3)
+		// ねじ回し
+		if (scene == _WINDUP_SCENE_)
 		{
+			// 遷移
+			scene = _MINIGAME_SCENE_;
 			minigame_step = 0;
-			
+			bar1_volume = 0.0;
+			bar2_volume = 0.0;
+			bar3_volume = 0.0;
 		}
+
+		// ミニゲーム
+		else if (scene == _MINIGAME_SCENE_)
+		{
+			// ミニゲームを進める
+			if (minigame_step != 2)	minigame_step++;
+			else if (minigame_step == 2)scene = _RUN_SCENE_;
+
+		}
+
+		// 走行
+		else if (scene == _RUN_SCENE_)
+		{
+
+
+		}
+
+		// 結果
+
+
 		return 0;
 	}
+
+	// 現在の遷移状態
+	int ShowScene()
+	{
+
+		return scene;
+	}
+
 
 	// 初期設定
 	int Startup()
@@ -334,6 +395,7 @@ public:
 		power_flag = false;
 		WindUpVolumeAction();
 
+		// ねじ巻き
 		if (scene == _WINDUP_SCENE_)
 		{
 			
@@ -345,11 +407,20 @@ public:
 			
 		}
 
+		// ミニゲーム
 		else if (scene == _MINIGAME_SCENE_)
+		{
+			MiniGameAction();
+
+		}
+
+		// 走行
+		else if (scene == _RUN_SCENE_)
 		{
 
 
 		}
+
 		return 0;
 	}
 

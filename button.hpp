@@ -35,7 +35,7 @@ public:
 	// ボタン押し
 	int Click()
 	{
-		scale = 1.5;
+		scale = 1.25;
 
 		return 0;
 	}
