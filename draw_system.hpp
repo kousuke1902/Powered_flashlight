@@ -67,7 +67,7 @@ public:
 	{
 
 		// 車両
-		carts.Draw(400.0, 400.0);
+		carts.Draw(400.0, 450.0);
 		
 		// ねじ巻き
 		double x = 420.0 - carts.Width() / 1.5;
@@ -95,22 +95,38 @@ public:
 
 		if (current_scene == _WINDUP_SCENE_)
 		{
-			counter_font(action.ShowPower(), U"巻き").drawAt(400.0, 100.0);
+			counter_font(U"ねじを巻こう").drawAt(400.0, 50.0);
+			counter_font(action.ShowPower(), U"巻き").drawAt(400.0, 150.0);
 			counter_font(U"出発").drawAt(400.0, 500.0, Palette::Black);
 		}
 
 		// ミニゲーム
 		else if (current_scene == _MINIGAME_SCENE_)
 		{
-			sub_font(U"気合い入れ").drawAt(400.0, 70.0);
-			sub_font(U"ゲージが右に行ったらボタンを押そう").drawAt(400.0, 100.0);
-			Rect{ Arg::center(400, 150), 400, 50 }.draw(Palette::White);
-			Rect{ Arg::center(400, 150), 370, 40 }.draw(Palette::Black);
+			counter_font(U"気合いを注入").drawAt(400.0, 50.0);
+			sub_font(U"ゲージが右に行ったらボタンを押そう").drawAt(400.0, 90.0);
+			
+			Rect{ Arg::center(400, 170), 400, 50 }.draw(Palette::White);
+			Rect{ Arg::center(400, 170), 370, 40 }.draw(Palette::Black);
 
 			current_scene = action.ShowMiniGameStep();
-			if (current_scene == 0) RectF{ Arg::leftCenter(210.0, 150.0), action.ShowVolume() * 370.0, 40.0 }.draw(Palette::Orange);
-			else if (current_scene == 1) RectF{ Arg::leftCenter(210.0, 150.0), action.ShowVolume() * 370.0, 40.0 }.draw(Palette::Orangered);
-			else if (current_scene == 2) RectF{ Arg::leftCenter(210.0, 150.0), action.ShowVolume() * 370.0, 40.0 }.draw(Palette::Mediumvioletred);
+			if (current_scene == 0)
+			{
+				RectF{ Arg::leftCenter(210.0, 170.0), action.ShowVolume(0) * 370.0, 40.0 }.draw(Palette::Orange);
+				sub_font(U"1回目 -- 倍  2回目 -- 倍  3回目 -- 倍").drawAt(400.0, 120.0);
+			}
+
+			else if (current_scene == 1)
+			{
+				RectF{ Arg::leftCenter(210.0, 170.0), action.ShowVolume(1) * 370.0, 40.0 }.draw(Palette::Orangered);
+				sub_font(U"1回目 {:.1f} 倍  2回目 -- 倍  3回目 -- 倍"_fmt(action.ShowVolume(0))).drawAt(400.0, 120.0);
+			}
+
+			else if (current_scene == 2)
+			{
+				RectF{ Arg::leftCenter(210.0, 170.0), action.ShowVolume(2) * 370.0, 40.0 }.draw(Palette::Mediumvioletred);
+				sub_font(U"1回目 {:.1f} 倍  2回目 {:.1f} 倍  3回目 -- 倍"_fmt(action.ShowVolume(0), action.ShowVolume(1))).drawAt(400.0, 120.0);
+			}
 
 			counter_font(U"ストップ").drawAt(400.0, 500.0, Palette::Black);
 
@@ -119,8 +135,22 @@ public:
 		// 走行
 		else if (current_scene == _RUN_SCENE_)
 		{
-
+			counter_font(U"{:.1f}"_fmt(action.ShowMovement()), U"cm").drawAt(400.0, 80.0);
+			sub_font(U"1回目 {:.1f} 倍  2回目 {:.1f} 倍  3回目 {:.1f} 倍"_fmt(action.ShowVolume(0), action.ShowVolume(1), action.ShowVolume(2))).drawAt(400.0, 120.0);
+			counter_font(U"スキップ").drawAt(400.0, 500.0, Palette::Black);
 		}
+
+		// 結果
+		else if (current_scene == _RESULT_SCENE_)
+		{
+			counter_font(U"{:.1f}"_fmt(action.ShowMovement()), U"cm").drawAt(400.0, 100.0);
+
+			counter_font(U"ネジを巻く").drawAt(400.0, 500.0, Palette::Black);
+		}
+
+		// 総移動距離
+		sub_font(U"走行距離").draw(Arg::rightCenter(770.0, 20.0));
+		sub_font(U"{:.1f}"_fmt(action.ShowTotalMovement()), U"cm").draw(Arg::rightCenter(770.0, 50.0));
 
 		return 0;
 	}

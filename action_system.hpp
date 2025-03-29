@@ -38,6 +38,7 @@ private:
 
 	double movement; // 移動距離
 	double max_movement; // 最大移動距離
+	double total_movement; // 総移動距離
 
 	double wind_up_volume; // ねじ巻き遷移度(位置，透過度)
 
@@ -194,7 +195,7 @@ private:
 		// 1回目
 		if (minigame_step == 0)
 		{
-			bar1_volume += deltatime.ShowDeltaTime() * 1.5;
+			bar1_volume += deltatime.ShowDeltaTime() / 3.0;
 			if (bar1_volume > 1.0) bar1_volume--;
 
 		}
@@ -202,7 +203,7 @@ private:
 		// 2回目
 		else if (minigame_step == 1)
 		{
-			bar2_volume += deltatime.ShowDeltaTime() * 2.0;
+			bar2_volume += deltatime.ShowDeltaTime() / 2.0;
 			if (bar2_volume > 1.0) bar2_volume--;
 
 		}
@@ -210,9 +211,27 @@ private:
 		// 3回目
 		else if (minigame_step == 2)
 		{
-			bar3_volume += deltatime.ShowDeltaTime() * 2.5;
+			bar3_volume += deltatime.ShowDeltaTime();
 			if (bar3_volume > 1.0) bar3_volume--;
 
+		}
+
+		return 0;
+	}
+
+	// 移動処理
+	int MovementAction()
+	{
+		if (movement < max_movement)
+		{
+			movement += deltatime.ShowDeltaTime();
+		}
+
+		else if (movement >= max_movement)
+		{
+			movement = max_movement;
+			total_movement += max_movement;
+			scene = _RESULT_SCENE_;
 		}
 
 		return 0;
@@ -293,12 +312,12 @@ public:
 	}
 
 	// ミニゲームのサイズ確認
-	double ShowVolume() const
+	double ShowVolume(int x) const
 	{
 
-		if (minigame_step == 0)return bar1_volume;
-		else if (minigame_step == 1)return bar2_volume;
-		else if (minigame_step == 2)return bar3_volume;
+		if (x == 0)return bar1_volume;
+		else if (x == 1)return bar2_volume;
+		else if (x == 2)return bar3_volume;
 
 		return 0;
 
@@ -307,15 +326,19 @@ public:
 	// ミニゲームの段階
 	int ShowMiniGameStep()
 	{
-
 		return minigame_step;
 	}
 
 	// 移動距離の参照
-	double ShouMovement() const
+	double ShowMovement() const
 	{
-
 		return movement;
+	}
+
+	// 総移動距離の参照
+	double ShowTotalMovement() const
+	{
+		return total_movement;
 	}
 
 	// ねじ巻き遷移度(位置，透過度用)参照
@@ -344,18 +367,28 @@ public:
 		{
 			// ミニゲームを進める
 			if (minigame_step != 2)	minigame_step++;
-			else if (minigame_step == 2)scene = _RUN_SCENE_;
-
+			else if (minigame_step == 2)
+			{
+				scene = _RUN_SCENE_;
+				max_movement = power * bar1_volume * bar2_volume * bar3_volume;
+			}
 		}
 
 		// 走行
 		else if (scene == _RUN_SCENE_)
 		{
-
-
+			movement = max_movement;
+			total_movement += max_movement;
+			scene = _RESULT_SCENE_;
 		}
 
 		// 結果
+		else if (scene == _RESULT_SCENE_)
+		{
+			scene = _WINDUP_SCENE_;
+			power = 0;
+
+		}
 
 
 		return 0;
@@ -383,6 +416,7 @@ public:
 		wheel_count = 0; // マウスホイールの累計移動量
 		mouse_count = 0.0; // マウス移動量
 		mouse_buffer = 0.0; // マウス移動量差分
+		total_movement = 0.0; // 総移動距離
 		wind_up_volume = 1.0; // ねじ巻き遷移度(位置，透過度)
 
 
@@ -417,7 +451,7 @@ public:
 		// 走行
 		else if (scene == _RUN_SCENE_)
 		{
-
+			MovementAction();
 
 		}
 
