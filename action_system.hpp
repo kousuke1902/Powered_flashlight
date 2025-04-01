@@ -116,6 +116,7 @@ private:
 		{
 			// 電力へ変える
 			power++;
+			push_count++;
 			power_flag = true;
 
 		}
@@ -124,6 +125,7 @@ private:
 		{
 			// 電力へ変える
 			power++;
+			push_count++;
 			power_flag = true;
 
 		}

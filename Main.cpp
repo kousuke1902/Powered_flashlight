@@ -26,6 +26,7 @@ void Main()
 	DrawSystem& draw = DrawSystem::getInstance();
 	ParticleSystem& particle = ParticleSystem::getInstance();
 	DeltaTime& delta_time = DeltaTime::getInstance();
+	IOsaveSystem& saveSys = IOsaveSystem::getInstance();
 
 	StartUp();
 
@@ -38,9 +39,11 @@ void Main()
 		action.Update();
 		draw.Update();
 		particle.Update();
+
+		saveSys.DataAutoSave();
 	}
 
 	// 保存
-	IOsaveSystem::getInstance().DataSave();
+	saveSys.DataSave();
 
 }

@@ -149,8 +149,30 @@ public:
 		}
 
 		// 総移動距離
-		sub_font(U"走行距離").draw(Arg::rightCenter(770.0, 20.0));
-		sub_font(U"{:.1f}"_fmt(action.ShowTotalMovement()), U"cm").draw(Arg::rightCenter(770.0, 50.0));
+		sub_font(U"走行距離").draw(Arg::rightCenter(770.0, 90.0));
+		sub_font(U"{:.1f}"_fmt(action.ShowTotalMovement()), U"cm").draw(Arg::rightCenter(770.0, 110.0));
+
+		// ボタン押し
+		sub_font(U"累計ボタン押し").draw(Arg::rightCenter(770.0, 290.0));
+		sub_font(U"{}"_fmt(action.ShowPushCount()), U"回").draw(Arg::rightCenter(770.0, 310.0));
+
+		// ホイール数
+		sub_font(U"ホイール回転").draw(Arg::rightCenter(770.0, 340.0));
+		sub_font(U"{}"_fmt(action.ShowMouseWheelCount()), U"行").draw(Arg::rightCenter(770.0, 360.0));
+
+		// カーソル距離
+		sub_font(U"カーソル総距離").draw(Arg::rightCenter(770.0, 390.0));
+		sub_font(U"{:.1f}"_fmt(action.ShowMouseCursorCount() / 1000.0), U"kDPI").draw(Arg::rightCenter(770.0, 410.0));
+
+		// スティック距離LR
+		sub_font(U"スティック総距離").draw(Arg::rightCenter(770.0, 440.0));
+		sub_font(U"{:.1f}"_fmt(action.ShowThumbCount().x), U"").draw(Arg::rightCenter(770.0, 460.0));
+		sub_font(U"{:.1f}"_fmt(action.ShowThumbCount().y), U"").draw(Arg::rightCenter(770.0, 480.0));
+
+		// トリガー距離
+		sub_font(U"トリガー総距離").draw(Arg::rightCenter(770.0, 510.0));
+		sub_font(U"{:.1f}"_fmt(action.ShowTriggerCount().x), U"").draw(Arg::rightCenter(770.0, 530.0));
+		sub_font(U"{:.1f}"_fmt(action.ShowTriggerCount().y), U"").draw(Arg::rightCenter(770.0, 550.0));
 
 		return 0;
 	}
