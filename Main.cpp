@@ -1,6 +1,7 @@
 ﻿#include <Siv3D.hpp>
 #include "action_system.hpp"
 #include "particle_system.hpp"
+#include "iosave_system.hpp"
 #include "delta_time.hpp"
 #include "app_startup.hpp"
 
@@ -32,10 +33,14 @@ void Main()
 	{
 		delta_time.CatchDeltaTime();
 		ClearPrint();
-		Print(delta_time.ShowDeltaTime());
+		Print();
 
 		action.Update();
 		draw.Update();
 		particle.Update();
 	}
+
+	// 保存
+	IOsaveSystem::getInstance().DataSave();
+
 }

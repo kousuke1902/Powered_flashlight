@@ -336,6 +336,7 @@
     <ClInclude Include="energy_sphre.hpp" />
     <ClInclude Include="game_input.hpp" />
     <ClInclude Include="drive_car.hpp" />
+    <ClInclude Include="iosave_system.hpp" />
     <ClInclude Include="particle_system.hpp" />
     <ClInclude Include="piston_engine.hpp" />
     <ClInclude Include="scatter.hpp" />

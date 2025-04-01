@@ -18,7 +18,7 @@ public:
 	{
 		int num = Random(17);
 
-		 num = 15;
+		// num = 15;
 
 		if (num == 0)car = Texture{ 0xF07AB_icon, _CAR_SIZE_ }; // 乗用車
 		else if (num == 1)car = Texture{ 0xF07A9_icon, _CAR_SIZE_ }; // ハッチバック車

@@ -18,14 +18,14 @@ private:
 	ActionSystem() = default; // コンストラクタ
 	~ActionSystem() = default; // デストラクタ
 
-	int power; // 貯めこんだ力
+	unsigned int power; // 貯めこんだ力
 	bool power_flag; // 力の発生の検知
-	int push_count; // ボタン押し回数
+	unsigned int push_count; // ボタン押し回数
 	Vec2 trigger_buffer; // トリガー押し込みの累積差分
 	Vec2 trigger_count; // 総トリガーの押し込み
 	Vec2 thumb_buffer; // スティック累計移動差分
 	Vec2 thumb_count; // スティック累計移動量
-	int wheel_count; // マウスホイールの累計移動量
+	unsigned int wheel_count; // マウスホイールの累計移動量
 	double mouse_count; // マウス移動量
 	double mouse_buffer; // マウス移動量差分
 
@@ -41,10 +41,6 @@ private:
 	double total_movement; // 総移動距離
 
 	double wind_up_volume; // ねじ巻き遷移度(位置，透過度)
-
-	
-
-
 
 	GameInput& input = GameInput::getInstance();
 	DeltaTime& deltatime = DeltaTime::getInstance();
@@ -403,20 +399,20 @@ public:
 
 
 	// 初期設定
-	int Startup()
+	int Startup(JSON json)
 	{
 		// 初期化作業
-		power = 0; // 貯めこんだ電力
-		push_count = 0; // ボタン押し回数
+		power = json[U"power"].get<int>(); // 貯めこんだ電力
+		push_count = json[U"push"].get<int>(); // ボタン押し回数
 		power_flag = false; // ボタン押し検知
 		trigger_buffer = Vec2{ 0.0, 0.0 }; // トリガー押し込みの累積差分
-		trigger_count = Vec2{ 0.0, 0.0 }; // 総トリガーの押し込み
+		trigger_count = json[U"trigger"].get<Vec2>(); // 総トリガーの押し込み
 		thumb_buffer = Vec2{ 0.0, 0.0 }; // スティック累計移動差分
-		thumb_count = Vec2{ 0.0, 0.0 }; // スティック累計移動量
-		wheel_count = 0; // マウスホイールの累計移動量
-		mouse_count = 0.0; // マウス移動量
+		thumb_count = json[U"thumb"].get<Vec2>(); // スティック累計移動量
+		wheel_count = json[U"wheel"].get<int>(); // マウスホイールの累計移動量
+		mouse_count = json[U"mouse"].get<double>(); // マウス移動量
 		mouse_buffer = 0.0; // マウス移動量差分
-		total_movement = 0.0; // 総移動距離
+		total_movement = json[U"movement"].get<double>(); // 総移動距離
 		wind_up_volume = 1.0; // ねじ巻き遷移度(位置，透過度)
 
 
