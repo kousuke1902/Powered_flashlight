@@ -3,9 +3,9 @@
 #include "base_particle.hpp"
 #include "scatter.hpp"
 #include "water_ripple.hpp"
-#include "water_ripple.hpp"
 #include "bubble.hpp"
 #include "wind.hpp"
+#include "star_scatter.hpp"
 
 // パーティクル処理関連の操作クラス
 class ParticleSystem final

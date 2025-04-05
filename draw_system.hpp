@@ -26,7 +26,6 @@ private:
 	Font distance_font; // 移動距離描画
 	Font sub_font; // 補助文字
 
-	Chart chart; // チャートグラフ管理
 	DriveCar carts; // 車描写
 	WindUp wind; // ねじ巻き
 
@@ -71,13 +70,18 @@ public:
 		
 		// ねじ巻き
 		double x = 420.0 - carts.Width() / 1.5;
-		double y = 400.0 - carts.Height() / 3.0;
+		double y = 440.0 - carts.Height() / 3.0;
 		double dist = action.ShowWindUpVolume();
 		wind.Draw(x + dist * 15.0, y, action.ShowPower() * 12_deg, dist);
 
 		// ねじ巻きパーティクル
-		if (action.ShowPowerFlag())particle.AddParticle(new WaterRipple(1.0, Vec2(x - 60.0, y), 50.0, Palette::Blueviolet));
-
+		if (action.ShowPowerFlag())
+		{
+			for (size_t time = 0; time < 2; ++time)
+			{
+				particle.AddParticle(new StarScatter(2.0, Vec2(x - 60.0, y)));
+			}
+		}
 		// ボタン
 		// モード移行
 		if (action_button.mouseOver() && MouseL.down())
@@ -95,7 +99,7 @@ public:
 
 		if (current_scene == _WINDUP_SCENE_)
 		{
-			counter_font(U"ねじを巻こう").drawAt(400.0, 50.0);
+			distance_font(U"ねじを巻こう").drawAt(400.0, 50.0);
 			counter_font(action.ShowPower(), U"巻き").drawAt(400.0, 150.0);
 			counter_font(U"出発").drawAt(400.0, 500.0, Palette::Black);
 		}
@@ -103,7 +107,7 @@ public:
 		// ミニゲーム
 		else if (current_scene == _MINIGAME_SCENE_)
 		{
-			counter_font(U"気合いを注入").drawAt(400.0, 50.0);
+			distance_font(U"気合いを注入").drawAt(400.0, 50.0);
 			sub_font(U"ゲージが右に行ったらボタンを押そう").drawAt(400.0, 90.0);
 			
 			Rect{ Arg::center(400, 170), 400, 50 }.draw(Palette::White);

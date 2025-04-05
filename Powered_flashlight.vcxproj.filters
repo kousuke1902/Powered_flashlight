@@ -872,5 +872,8 @@
     <ClInclude Include="iosave_system.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="star_scatter.hpp">
+      <Filter>Header Files\Particle</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

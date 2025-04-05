@@ -340,6 +340,7 @@
     <ClInclude Include="particle_system.hpp" />
     <ClInclude Include="piston_engine.hpp" />
     <ClInclude Include="scatter.hpp" />
+    <ClInclude Include="star_scatter.hpp" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="tachometer.hpp" />
     <ClInclude Include="water_ripple.hpp" />
