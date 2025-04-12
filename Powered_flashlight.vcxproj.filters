@@ -875,5 +875,8 @@
     <ClInclude Include="star_scatter.hpp">
       <Filter>Header Files\Particle</Filter>
     </ClInclude>
+    <ClInclude Include="sound_system.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
