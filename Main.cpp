@@ -34,7 +34,7 @@ void Main()
 	{
 		delta_time.CatchDeltaTime();
 		ClearPrint();
-		Print();
+		Print(1_deg);
 
 		action.Update();
 		draw.Update();

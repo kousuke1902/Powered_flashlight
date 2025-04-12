@@ -31,6 +31,8 @@ private:
 
 	Button action_button; // 操作ボタン
 
+	double wind_interval; // 走行パーティクルの時間間隔
+
 	ActionSystem& action = ActionSystem::getInstance();
 	ParticleSystem& particle = ParticleSystem::getInstance();
 	GameInput& input = GameInput::getInstance();
@@ -57,6 +59,7 @@ public:
 		distance_font = Font{ 30 };
 		sub_font = Font{ 20 };
 		action_button = Button{ RectF{ Arg::center(400.0, 500.0), 300.0, 70.0 }, Palette::White };
+		wind_interval = 0.0;
 
 		return 0;
 	}
@@ -64,9 +67,6 @@ public:
 	// 随時更新
 	int Update()
 	{
-
-		// 車両
-		carts.Draw(400.0, 450.0);
 		
 		// ねじ巻き
 		double x = 420.0 - carts.Width() / 1.5;
@@ -74,14 +74,6 @@ public:
 		double dist = action.ShowWindUpVolume();
 		wind.Draw(x + dist * 15.0, y, action.ShowPower() * 12_deg, dist);
 
-		// ねじ巻きパーティクル
-		if (action.ShowPowerFlag())
-		{
-			for (size_t time = 0; time < 2; ++time)
-			{
-				particle.AddParticle(new StarScatter(2.0, Vec2(x - 60.0, y)));
-			}
-		}
 		// ボタン
 		// モード移行
 		if (action_button.mouseOver() && MouseL.down())
@@ -97,11 +89,23 @@ public:
 		// 表示
 		int current_scene = action.ShowScene();
 
+		// 車両
+		carts.Draw(400.0, 450.0, current_scene == _RUN_SCENE_);
+
 		if (current_scene == _WINDUP_SCENE_)
 		{
 			distance_font(U"ねじを巻こう").drawAt(400.0, 50.0);
 			counter_font(action.ShowPower(), U"巻き").drawAt(400.0, 150.0);
 			counter_font(U"出発").drawAt(400.0, 500.0, Palette::Black);
+
+			// ねじ巻きパーティクル
+			if (action.ShowPowerFlag())
+			{
+				for (size_t time = 0; time < 2; ++time)
+				{
+					particle.AddParticle(new StarScatter(Random(1.0, 3.0), Vec2(x - 50, y)));
+				}
+			}
 		}
 
 		// ミニゲーム
@@ -117,19 +121,19 @@ public:
 			if (current_scene == 0)
 			{
 				RectF{ Arg::leftCenter(210.0, 170.0), action.ShowVolume(0) * 370.0, 40.0 }.draw(Palette::Orange);
-				sub_font(U"1回目 -- 倍  2回目 -- 倍  3回目 -- 倍").drawAt(400.0, 120.0);
+				sub_font(U"1回目 --- 倍  2回目 --- 倍  3回目 --- 倍").drawAt(400.0, 120.0);
 			}
 
 			else if (current_scene == 1)
 			{
 				RectF{ Arg::leftCenter(210.0, 170.0), action.ShowVolume(1) * 370.0, 40.0 }.draw(Palette::Orangered);
-				sub_font(U"1回目 {:.1f} 倍  2回目 -- 倍  3回目 -- 倍"_fmt(action.ShowVolume(0))).drawAt(400.0, 120.0);
+				sub_font(U"1回目 {:.2f} 倍  2回目 --- 倍  3回目 --- 倍"_fmt(action.ShowVolume(0))).drawAt(400.0, 120.0);
 			}
 
 			else if (current_scene == 2)
 			{
 				RectF{ Arg::leftCenter(210.0, 170.0), action.ShowVolume(2) * 370.0, 40.0 }.draw(Palette::Mediumvioletred);
-				sub_font(U"1回目 {:.1f} 倍  2回目 {:.1f} 倍  3回目 -- 倍"_fmt(action.ShowVolume(0), action.ShowVolume(1))).drawAt(400.0, 120.0);
+				sub_font(U"1回目 {:.2f} 倍  2回目 {:.2f} 倍  3回目 --- 倍"_fmt(action.ShowVolume(0), action.ShowVolume(1))).drawAt(400.0, 120.0);
 			}
 
 			counter_font(U"ストップ").drawAt(400.0, 500.0, Palette::Black);
@@ -140,8 +144,18 @@ public:
 		else if (current_scene == _RUN_SCENE_)
 		{
 			counter_font(U"{:.1f}"_fmt(action.ShowMovement()), U"cm").drawAt(400.0, 80.0);
-			sub_font(U"1回目 {:.1f} 倍  2回目 {:.1f} 倍  3回目 {:.1f} 倍"_fmt(action.ShowVolume(0), action.ShowVolume(1), action.ShowVolume(2))).drawAt(400.0, 120.0);
+			sub_font(U"1回目 {:.2f} 倍  2回目 {:.2f} 倍  3回目 {:.2f} 倍"_fmt(action.ShowVolume(0), action.ShowVolume(1), action.ShowVolume(2))).drawAt(400.0, 120.0);
 			counter_font(U"スキップ").drawAt(400.0, 500.0, Palette::Black);
+
+			if (wind_interval <= 0.0)
+			{
+				wind_interval = Random(0.5, 1.5);
+				x = carts.Width() / 2.0;
+				y = carts.Height() / 3.0;
+				particle.AddParticle(new Wind(3.0, Vec2(Random(400.0 - x, 400.0 + x), Random(380.0 - y, 380.0 + y))));
+			}
+		
+			wind_interval -= DeltaTime::getInstance().ShowDeltaTime();
 		}
 
 		// 結果
@@ -153,8 +167,8 @@ public:
 		}
 
 		// 総移動距離
-		sub_font(U"走行距離").draw(Arg::rightCenter(770.0, 90.0));
-		sub_font(U"{:.1f}"_fmt(action.ShowTotalMovement()), U"cm").draw(Arg::rightCenter(770.0, 110.0));
+		sub_font(U"走行距離").draw(Arg::rightCenter(770.0, 70.0));
+		sub_font(U"{:.1f}"_fmt(action.ShowTotalMovement()), U"cm").draw(Arg::rightCenter(770.0, 90.0));
 
 		// ボタン押し
 		sub_font(U"累計ボタン押し").draw(Arg::rightCenter(770.0, 290.0));
@@ -166,7 +180,7 @@ public:
 
 		// カーソル距離
 		sub_font(U"カーソル総距離").draw(Arg::rightCenter(770.0, 390.0));
-		sub_font(U"{:.1f}"_fmt(action.ShowMouseCursorCount() / 1000.0), U"kDPI").draw(Arg::rightCenter(770.0, 410.0));
+		sub_font(U"{:.1f}"_fmt(action.ShowMouseCursorCount() / 1000.0), U"kドット").draw(Arg::rightCenter(770.0, 410.0));
 
 		// スティック距離LR
 		sub_font(U"スティック総距離").draw(Arg::rightCenter(770.0, 440.0));

@@ -10,7 +10,34 @@ class DriveCar
 private:
 
 	Texture car; // アイコン
+	double theta; // 角度
+	double vibration; // 揺れ
 	DeltaTime& deltatime = DeltaTime::getInstance();
+
+	// 振動
+	double VibrationDetect(bool flag)
+	{
+		if (flag == true)
+		{
+			theta += deltatime.ShowDeltaTime();
+			vibration = Abs(Sin(theta * 2.0) + Sin(theta / 3.0) + Sin(theta * 5.0) + Sin(theta / 7.0)) * 2.0;
+		}
+		else if (flag == false)
+		{
+			theta = 0_deg;
+
+			if (vibration > 0.0)
+			{
+				vibration -= deltatime.ShowDeltaTime();
+			}
+			else if (vibration < 0.0)
+			{
+				vibration = 0.0;
+			}
+		}
+
+		return vibration;
+	}
 
 public:
 
@@ -39,6 +66,9 @@ public:
 		else if (num == 16)car = Texture{ 0xF0D79_icon, _CAR_SIZE_ }; // ゴーカート
 		else if (num == 17)car = Texture{ 0xF1677_icon, _CAR_SIZE_ }; // カタツムリ
 
+		theta = 0_deg;
+		vibration = 0.0;
+
 	}
 
 	~DriveCar(){}
@@ -58,16 +88,17 @@ public:
 	// 描画
 	int Draw(Vec2 graph, bool accel_flag)
 	{
+		graph.y -= VibrationDetect(accel_flag);
 		car.draw(Arg::bottomCenter(graph));
 
 		return 0;
 	}
 
 	// 描画
-	int Draw(double x, double y)
+	int Draw(double x, double y, bool accel_flag)
 	{
 
-		car.draw(Arg::bottomCenter(x, y));
+		car.draw(Arg::bottomCenter(x, y - VibrationDetect(accel_flag)));
 
 		return 0;
 	}

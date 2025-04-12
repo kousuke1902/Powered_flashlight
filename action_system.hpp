@@ -369,6 +369,7 @@ public:
 			{
 				scene = _RUN_SCENE_;
 				max_movement = power * bar1_volume * bar2_volume * bar3_volume;
+				power = 0;
 			}
 		}
 
@@ -378,13 +379,14 @@ public:
 			movement = max_movement;
 			total_movement += max_movement;
 			scene = _RESULT_SCENE_;
+			
 		}
 
 		// 結果
 		else if (scene == _RESULT_SCENE_)
 		{
 			scene = _WINDUP_SCENE_;
-			power = 0;
+			
 
 		}
 
