@@ -1,6 +1,7 @@
 ﻿#include <Siv3D.hpp>
 #include "action_system.hpp"
 #include "particle_system.hpp"
+#include "sound_system.hpp"
 #include "iosave_system.hpp"
 #include "delta_time.hpp"
 #include "app_startup.hpp"
@@ -25,6 +26,7 @@ void Main()
 	ActionSystem& action = ActionSystem::getInstance();
 	DrawSystem& draw = DrawSystem::getInstance();
 	ParticleSystem& particle = ParticleSystem::getInstance();
+	SoundSystem& sound = SoundSystem::getInstance();
 	DeltaTime& delta_time = DeltaTime::getInstance();
 	IOsaveSystem& saveSys = IOsaveSystem::getInstance();
 
@@ -39,7 +41,7 @@ void Main()
 		action.Update();
 		draw.Update();
 		particle.Update();
-
+		sound.Update();
 		saveSys.DataAutoSave();
 	}
 

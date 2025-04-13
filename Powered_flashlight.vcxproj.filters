@@ -142,6 +142,9 @@
     <Filter Include="Header Files\Particle">
       <UniqueIdentifier>{82525a36-4a1d-4903-8638-76e58a29b198}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Sound">
+      <UniqueIdentifier>{28a0cf18-6732-46e5-b8df-401db94d4cd9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -877,6 +880,30 @@
     </ClInclude>
     <ClInclude Include="sound_system.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="base_sound.hpp">
+      <Filter>Header Files\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="wind_up_sound.hpp">
+      <Filter>Header Files\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="click_sound.hpp">
+      <Filter>Header Files\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="mini1_sound.hpp">
+      <Filter>Header Files\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="mini2_sound.hpp">
+      <Filter>Header Files\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="mini3_sound.hpp">
+      <Filter>Header Files\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="result_sound.hpp">
+      <Filter>Header Files\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="run_sound.hpp">
+      <Filter>Header Files\Sound</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

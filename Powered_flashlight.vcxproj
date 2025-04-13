@@ -328,17 +328,24 @@
     <ClInclude Include="action_system.hpp" />
     <ClInclude Include="app_startup.hpp" />
     <ClInclude Include="base_particle.hpp" />
+    <ClInclude Include="base_sound.hpp" />
     <ClInclude Include="bubble.hpp" />
     <ClInclude Include="button.hpp" />
     <ClInclude Include="chart.hpp" />
+    <ClInclude Include="click_sound.hpp" />
     <ClInclude Include="delta_time.hpp" />
     <ClInclude Include="draw_system.hpp" />
     <ClInclude Include="energy_sphre.hpp" />
     <ClInclude Include="game_input.hpp" />
     <ClInclude Include="drive_car.hpp" />
     <ClInclude Include="iosave_system.hpp" />
+    <ClInclude Include="mini1_sound.hpp" />
+    <ClInclude Include="mini2_sound.hpp" />
+    <ClInclude Include="mini3_sound.hpp" />
     <ClInclude Include="particle_system.hpp" />
     <ClInclude Include="piston_engine.hpp" />
+    <ClInclude Include="result_sound.hpp" />
+    <ClInclude Include="run_sound.hpp" />
     <ClInclude Include="scatter.hpp" />
     <ClInclude Include="sound_system.hpp" />
     <ClInclude Include="star_scatter.hpp" />
@@ -347,6 +354,7 @@
     <ClInclude Include="water_ripple.hpp" />
     <ClInclude Include="wind.hpp" />
     <ClInclude Include="wind_up.hpp" />
+    <ClInclude Include="wind_up_sound.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App\example\obj\blacksmith.obj">

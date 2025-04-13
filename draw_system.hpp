@@ -2,6 +2,7 @@
 #include <Siv3D.hpp>
 #include "action_system.hpp"
 #include "particle_system.hpp"
+#include "sound_system.hpp"
 #include "game_input.hpp"
 #include "delta_time.hpp"
 #include "energy_sphre.hpp"

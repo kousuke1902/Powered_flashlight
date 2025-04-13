@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <Siv3D.hpp>
 #include "game_input.hpp"
+#include "sound_system.hpp"
 #include "particle_system.hpp"
 #include "delta_time.hpp"
 
@@ -19,6 +20,7 @@ private:
 	~ActionSystem() = default; // デストラクタ
 
 	unsigned int power; // 貯めこんだ力
+	unsigned int buf_power; // 力の一時保存
 	bool power_flag; // 力の発生の検知
 	unsigned int push_count; // ボタン押し回数
 	Vec2 trigger_buffer; // トリガー押し込みの累積差分
@@ -42,6 +44,7 @@ private:
 
 	double wind_up_volume; // ねじ巻き遷移度(位置，透過度)
 
+	SoundSystem& sound = SoundSystem::getInstance();
 	GameInput& input = GameInput::getInstance();
 	DeltaTime& deltatime = DeltaTime::getInstance();
 
@@ -54,8 +57,8 @@ private:
 		push_count += count; // ボタン押し計測
 		power += count; // 電力充電
 
-		if (0 < count)power_flag = true;
-
+		if (0 < count)	power_flag = true;
+		
 		return 0;
 	}
 
@@ -230,6 +233,7 @@ private:
 			movement = max_movement;
 			total_movement += max_movement;
 			scene = _RESULT_SCENE_;
+			sound.AddSound(new ResultSound());
 		}
 
 		return 0;
@@ -264,6 +268,7 @@ public:
 	// ボタン押し検知
 	bool ShowPowerFlag() const
 	{
+		if (power_flag) sound.AddSound(new WindUpSound());
 		return power_flag;
 	}
 
@@ -354,22 +359,36 @@ public:
 		{
 			// 遷移
 			scene = _MINIGAME_SCENE_;
+			buf_power = power;
+			power = 0;
 			minigame_step = 0;
 			bar1_volume = 0.0;
 			bar2_volume = 0.0;
 			bar3_volume = 0.0;
+			sound.AddSound(new ClickSound());
 		}
 
 		// ミニゲーム
 		else if (scene == _MINIGAME_SCENE_)
 		{
 			// ミニゲームを進める
-			if (minigame_step != 2)	minigame_step++;
+			if (minigame_step == 0)
+			{
+				minigame_step++;
+				sound.AddSound(new Mini1Sound());
+			}
+
+			else if (minigame_step == 1)
+			{
+				minigame_step++;
+				sound.AddSound(new Mini2Sound());
+			}
+
 			else if (minigame_step == 2)
 			{
 				scene = _RUN_SCENE_;
-				max_movement = power * bar1_volume * bar2_volume * bar3_volume;
-				power = 0;
+				max_movement = buf_power * bar1_volume * bar2_volume * bar3_volume;
+				sound.AddSound(new Mini3Sound());
 			}
 		}
 
@@ -379,6 +398,7 @@ public:
 			movement = max_movement;
 			total_movement += max_movement;
 			scene = _RESULT_SCENE_;
+			sound.AddSound(new ResultSound());
 			
 		}
 
@@ -386,8 +406,7 @@ public:
 		else if (scene == _RESULT_SCENE_)
 		{
 			scene = _WINDUP_SCENE_;
-			
-
+			sound.AddSound(new ClickSound());
 		}
 
 
@@ -407,6 +426,7 @@ public:
 	{
 		// 初期化作業
 		power = json[U"power"].get<int>(); // 貯めこんだ電力
+		buf_power = 0; // 力の一時保存
 		push_count = json[U"push"].get<int>(); // ボタン押し回数
 		power_flag = false; // ボタン押し検知
 		trigger_buffer = Vec2{ 0.0, 0.0 }; // トリガー押し込みの累積差分
