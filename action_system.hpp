@@ -44,6 +44,8 @@ private:
 
 	double wind_up_volume; // ねじ巻き遷移度(位置，透過度)
 
+	unsigned int reset_count; // データ初期化カウント
+
 	SoundSystem& sound = SoundSystem::getInstance();
 	GameInput& input = GameInput::getInstance();
 	DeltaTime& deltatime = DeltaTime::getInstance();
@@ -233,6 +235,7 @@ private:
 			movement = max_movement;
 			total_movement += max_movement;
 			scene = _RESULT_SCENE_;
+			sound.Finish(U"Run");
 			sound.AddSound(new ResultSound());
 		}
 
@@ -327,7 +330,7 @@ public:
 	}
 
 	// ミニゲームの段階
-	int ShowMiniGameStep()
+	int ShowMiniGameStep() const
 	{
 		return minigame_step;
 	}
@@ -398,6 +401,7 @@ public:
 			movement = max_movement;
 			total_movement += max_movement;
 			scene = _RESULT_SCENE_;
+			sound.Finish(U"Run");
 			sound.AddSound(new ResultSound());
 			
 		}
@@ -414,12 +418,45 @@ public:
 	}
 
 	// 現在の遷移状態
-	int ShowScene()
+	int ShowScene() const
 	{
 
 		return scene;
 	}
 
+	// データ初期化アクション
+	int DataResetAction()
+	{
+		
+		if (reset_count != 0)
+		{
+			reset_count--;
+			sound.AddSound(new CountdownSound());
+		}
+
+		// カウント0で初期化
+		else if (reset_count == 0)
+		{
+			reset_count = 3;
+			power = 0;
+			push_count = 0;
+			trigger_count = Vec2{ 0.0, 0.0 };
+			thumb_count = Vec2{ 0.0, 0.0 };
+			wheel_count = 0;
+			mouse_count = 0.0;
+			total_movement = 0.0;
+			sound.AddSound(new ResetSound());
+
+		}
+
+		return 0;
+	}
+
+	// 初期化カウント閲覧
+	int ShowResetCount() const
+	{
+		return reset_count;
+	}
 
 	// 初期設定
 	int Startup(JSON json)
@@ -438,7 +475,7 @@ public:
 		mouse_buffer = 0.0; // マウス移動量差分
 		total_movement = json[U"movement"].get<double>(); // 総移動距離
 		wind_up_volume = 1.0; // ねじ巻き遷移度(位置，透過度)
-
+		reset_count = 3; // データ初期化のカウント
 
 		return 0;
 	}
@@ -472,7 +509,7 @@ public:
 		else if (scene == _RUN_SCENE_)
 		{
 			MovementAction();
-
+			sound.AddSound(new RunSound);
 		}
 
 		return 0;

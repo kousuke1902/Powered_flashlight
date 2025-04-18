@@ -31,6 +31,7 @@ private:
 	WindUp wind; // ねじ巻き
 
 	Button action_button; // 操作ボタン
+	Button reset_button; // データ初期化ボタン
 
 	double wind_interval; // 走行パーティクルの時間間隔
 
@@ -56,10 +57,11 @@ public:
 	// 初期化設定
 	int Startup()
 	{
-		counter_font = Font{ 50 };
-		distance_font = Font{ 30 };
-		sub_font = Font{ 20 };
+		counter_font = Font{ FontMethod::MSDF, 50 };
+		distance_font = Font{ FontMethod::MSDF, 30 };
+		sub_font = Font{ FontMethod::MSDF, 20 };
 		action_button = Button{ RectF{ Arg::center(400.0, 500.0), 300.0, 70.0 }, Palette::White };
+		reset_button = Button{ RectF{Arg::center(80.0, 30.0), 150.0, 30.0 }, Palette::White };
 		wind_interval = 0.0;
 
 		return 0;
@@ -76,6 +78,19 @@ public:
 		wind.Draw(x + dist * 15.0, y, action.ShowPower() * 12_deg, dist);
 
 		// ボタン
+		//データ初期化
+
+		reset_button.Draw();
+		sub_font(U"データリセット").drawAt(80.0, 30.0, Palette::Black);
+
+		if (reset_button.mouseOver() && MouseL.down())
+		{
+			reset_button.Click();
+			action.DataResetAction();
+			particle.AddParticle(new WaterRipple(1.0, Cursor::PosF(), 50.0, Palette::Blueviolet));
+
+		}
+
 		// モード移行
 		if (action_button.mouseOver() && MouseL.down())
 		{

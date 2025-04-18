@@ -905,5 +905,11 @@
     <ClInclude Include="run_sound.hpp">
       <Filter>Header Files\Sound</Filter>
     </ClInclude>
+    <ClInclude Include="countdown_sound.hpp">
+      <Filter>Header Files\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="reset_sound.hpp">
+      <Filter>Header Files\Sound</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

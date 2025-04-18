@@ -8,7 +8,7 @@ class ClickSound : public BaseSound
 public:
 
 	// コンストラクタ
-	ClickSound() : BaseSound(U"click.mp3", Loop::No, U"Click", false)
+	ClickSound() : BaseSound(Resource(U"click.mp3"), Loop::No, U"Click", false)
 	{
 
 	}

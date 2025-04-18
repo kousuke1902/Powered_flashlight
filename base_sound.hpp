@@ -38,6 +38,13 @@ public:
 		return 0;
 	}
 
+	// フェードアウト
+	virtual int FadeoutSound()
+	{
+		audio.fadeVolume(0.0, 0.5s);
+		return 0;
+	}
+
 	// 割り当て番号閲覧
 	String ShowID()
 	{
@@ -45,7 +52,7 @@ public:
 	}
 
 	// 重複可否閲覧
-	bool ShowOverlapping()
+	bool ShowOverlapping() const
 	{
 		return overlapping;
 	}

@@ -333,6 +333,7 @@
     <ClInclude Include="button.hpp" />
     <ClInclude Include="chart.hpp" />
     <ClInclude Include="click_sound.hpp" />
+    <ClInclude Include="countdown_sound.hpp" />
     <ClInclude Include="delta_time.hpp" />
     <ClInclude Include="draw_system.hpp" />
     <ClInclude Include="energy_sphre.hpp" />
@@ -344,6 +345,7 @@
     <ClInclude Include="mini3_sound.hpp" />
     <ClInclude Include="particle_system.hpp" />
     <ClInclude Include="piston_engine.hpp" />
+    <ClInclude Include="reset_sound.hpp" />
     <ClInclude Include="result_sound.hpp" />
     <ClInclude Include="run_sound.hpp" />
     <ClInclude Include="scatter.hpp" />

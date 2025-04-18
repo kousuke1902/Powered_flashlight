@@ -7,6 +7,9 @@
 #include "mini2_sound.hpp"
 #include "mini3_sound.hpp"
 #include "result_sound.hpp"
+#include "run_sound.hpp"
+#include "countdown_sound.hpp"
+#include "reset_sound.hpp"
 
 // 効果音の操作に対する処理クラス
 class SoundSystem
@@ -24,6 +27,8 @@ private:
 	Audio minigame3_sound; // ミニゲーム音3
 	Audio drive_sound; // 走行音
 	Audio result_sound; // 結果発表音
+
+
 
 public:
 
@@ -64,7 +69,11 @@ public:
 	// 効果音動作更新
 	int Update()
 	{
-		// パーティクルの走査
+
+		if (Window::GetState().focused == false) GlobalAudio::FadeVolume(0.0, 0.25s);
+		else if (Window::GetState().focused == true)GlobalAudio::FadeVolume(1.0, 0.25s);
+
+		// 効果音の走査
 		for (auto it = sounds.begin(); it != sounds.end();)
 		{
 			BaseSound* sound = *it;
@@ -88,5 +97,26 @@ public:
 
 	}
 
+	// サウンド終了
+	int Finish(String id)
+	{
+		// 効果音の走査
+		for (auto it = sounds.begin(); it != sounds.end();)
+		{
+			BaseSound* sound = *it;
+
+			// 効果音の確認
+			if (sound->ShowID() == id)
+			{
+				sound->FadeoutSound();
+			}
+
+			++it;
+			
+
+		}
+
+		return 0;
+	}
 
 };

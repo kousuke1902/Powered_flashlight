@@ -12,6 +12,6 @@ const int StartUp()
 	GameInput::getInstance().Startup();
 	ActionSystem::getInstance().Startup(IOsaveSystem::getInstance().DataLoad());
 	DrawSystem::getInstance().Startup();
-	
+
 	return 0;
 }

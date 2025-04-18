@@ -1,14 +1,14 @@
 ﻿#pragma once
 #include "base_sound.hpp"
 
-// クリック音
+// ミニゲーム2音
 class Mini2Sound : public BaseSound
 {
 
 public:
 
 	// コンストラクタ
-	Mini2Sound() : BaseSound(U"mini2.mp3", Loop::No, U"Mini2", false)
+	Mini2Sound() : BaseSound(Resource(U"mini2.mp3"), Loop::No, U"Mini2", false)
 	{
 
 	}

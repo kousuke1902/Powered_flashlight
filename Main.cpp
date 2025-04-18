@@ -35,9 +35,6 @@ void Main()
 	while (System::Update())
 	{
 		delta_time.CatchDeltaTime();
-		ClearPrint();
-		Print(1_deg);
-
 		action.Update();
 		draw.Update();
 		particle.Update();
