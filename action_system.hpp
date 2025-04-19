@@ -5,7 +5,8 @@
 #include "particle_system.hpp"
 #include "delta_time.hpp"
 
-#define _MOUSE_POINT_SIZE_  1000.0
+#define _MOUSE_POINT_SIZE_ 1000.0
+#define _WHEEL_POINT_SIZE_ 8
 #define _WINDUP_SCENE_ 0 // ねじ巻き
 #define _MINIGAME_SCENE_ 1 // ミニゲーム
 #define _RUN_SCENE_ 2 // 走行
@@ -28,6 +29,7 @@ private:
 	Vec2 thumb_buffer; // スティック累計移動差分
 	Vec2 thumb_count; // スティック累計移動量
 	unsigned int wheel_count; // マウスホイールの累計移動量
+	unsigned int wheel_buffer; // マウスホイールの一時保存
 	double mouse_count; // マウス移動量
 	double mouse_buffer; // マウス移動量差分
 
@@ -143,11 +145,17 @@ private:
 	{
 		int count = int(input.MouseWheelAbsDetect());
 
-		power += count; // 電力加算
+		
 		wheel_count += count;// 累計移動量に足しこみ
+		wheel_buffer += count; // 一時保存に足しこみ
 
 		// 力の発生
-		if (0 < count)power_flag = true;
+		if (wheel_buffer >= _WHEEL_POINT_SIZE_)
+		{
+			power++; // 電力加算
+			power_flag = true;
+			wheel_buffer -= _WHEEL_POINT_SIZE_;
+		}
 
 		return 0;
 	}
@@ -162,9 +170,8 @@ private:
 		// 差分計算
 		if (mouse_buffer >= _MOUSE_POINT_SIZE_)
 		{
-			double ratio = mouse_buffer / _MOUSE_POINT_SIZE_;
-			mouse_buffer -= ratio * _MOUSE_POINT_SIZE_;
-			power += int(ratio);
+			mouse_buffer -= _MOUSE_POINT_SIZE_;
+			power++;
 			power_flag = true;
 		}
 
@@ -439,11 +446,16 @@ public:
 		{
 			reset_count = 3;
 			power = 0;
+			buf_power = 0;
 			push_count = 0;
 			trigger_count = Vec2{ 0.0, 0.0 };
+			trigger_buffer = Vec2{ 0.0, 0.0 };
 			thumb_count = Vec2{ 0.0, 0.0 };
+			thumb_buffer = Vec2{ 0.0, 0.0 };
 			wheel_count = 0;
+			wheel_buffer = 0;
 			mouse_count = 0.0;
+			mouse_buffer = 0.0;
 			total_movement = 0.0;
 			sound.AddSound(new ResetSound());
 
@@ -471,6 +483,7 @@ public:
 		thumb_buffer = Vec2{ 0.0, 0.0 }; // スティック累計移動差分
 		thumb_count = json[U"thumb"].get<Vec2>(); // スティック累計移動量
 		wheel_count = json[U"wheel"].get<int>(); // マウスホイールの累計移動量
+		wheel_buffer = 0; // マウスホイールの一時保存
 		mouse_count = json[U"mouse"].get<double>(); // マウス移動量
 		mouse_buffer = 0.0; // マウス移動量差分
 		total_movement = json[U"movement"].get<double>(); // 総移動距離
