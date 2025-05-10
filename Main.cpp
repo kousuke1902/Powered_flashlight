@@ -13,6 +13,9 @@ void Main()
 	// ESCキーでアプリケーション終了を行わない
 	System::SetTerminationTriggers(UserAction::CloseButtonClicked);
 
+	// スクリーンショットキーでのみスクリーンショット
+	ScreenCapture::SetShortcutKeys({ KeyPrintScreen });
+
 	// 全画面表示を行わない
 	Window::SetToggleFullscreenEnabled(false);
 

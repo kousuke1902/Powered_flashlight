@@ -34,6 +34,7 @@ private:
 	Button reset_button; // データ初期化ボタン
 
 	double wind_interval; // 走行パーティクルの時間間隔
+	double tree_interval; // 走行パーティクルの時間間隔
 
 	ActionSystem& action = ActionSystem::getInstance();
 	ParticleSystem& particle = ParticleSystem::getInstance();
@@ -61,8 +62,9 @@ public:
 		distance_font = Font{ FontMethod::MSDF, 30 };
 		sub_font = Font{ FontMethod::MSDF, 20 };
 		action_button = Button{ RectF{ Arg::center(400.0, 500.0), 300.0, 70.0 }, Palette::White };
-		reset_button = Button{ RectF{Arg::center(80.0, 30.0), 150.0, 30.0 }, Palette::White };
+		reset_button = Button{ RectF{Arg::center(90.0, 30.0), 150.0, 30.0 }, Palette::White };
 		wind_interval = 0.0;
+		tree_interval = 0.0;
 
 		return 0;
 	}
@@ -81,7 +83,7 @@ public:
 		//データ初期化
 
 		reset_button.Draw();
-		sub_font(U"データリセット").drawAt(80.0, 30.0, Palette::Black);
+		sub_font(U"データリセット").drawAt(90.0, 30.0, Palette::Black);
 
 		if (reset_button.mouseOver() && MouseL.down())
 		{
@@ -136,19 +138,19 @@ public:
 			current_scene = action.ShowMiniGameStep();
 			if (current_scene == 0)
 			{
-				RectF{ Arg::leftCenter(210.0, 170.0), action.ShowVolume(0) * 370.0, 40.0 }.draw(Palette::Orange);
+				RectF{ Arg::leftCenter(215.0, 170.0), action.ShowVolume(0) * 370.0, 40.0 }.draw(Palette::Orange);
 				sub_font(U"1回目 --- 倍  2回目 --- 倍  3回目 --- 倍").drawAt(400.0, 120.0);
 			}
 
 			else if (current_scene == 1)
 			{
-				RectF{ Arg::leftCenter(210.0, 170.0), action.ShowVolume(1) * 370.0, 40.0 }.draw(Palette::Orangered);
+				RectF{ Arg::leftCenter(215.0, 170.0), action.ShowVolume(1) * 370.0, 40.0 }.draw(Palette::Orangered);
 				sub_font(U"1回目 {:.2f} 倍  2回目 --- 倍  3回目 --- 倍"_fmt(action.ShowVolume(0))).drawAt(400.0, 120.0);
 			}
 
 			else if (current_scene == 2)
 			{
-				RectF{ Arg::leftCenter(210.0, 170.0), action.ShowVolume(2) * 370.0, 40.0 }.draw(Palette::Mediumvioletred);
+				RectF{ Arg::leftCenter(215.0, 170.0), action.ShowVolume(2) * 370.0, 40.0 }.draw(Palette::Mediumvioletred);
 				sub_font(U"1回目 {:.2f} 倍  2回目 {:.2f} 倍  3回目 --- 倍"_fmt(action.ShowVolume(0), action.ShowVolume(1))).drawAt(400.0, 120.0);
 			}
 
@@ -170,8 +172,17 @@ public:
 				y = carts.Height() / 3.0;
 				particle.AddParticle(new Wind(3.0, Vec2(Random(400.0 - x, 400.0 + x), Random(380.0 - y, 380.0 + y))));
 			}
-		
-			wind_interval -= DeltaTime::getInstance().ShowDeltaTime();
+
+			if (tree_interval <= 0.0)
+			{
+				tree_interval = Random(1.0, 2.0);
+				particle.AddParticle(new TreeView(10.0, Vec2(810.0, 300.0 + Random(-50.0, 50.0))));
+			}
+
+			double deltatime = DeltaTime::getInstance().ShowDeltaTime();
+
+			wind_interval -= deltatime;
+			tree_interval -= deltatime;
 		}
 
 		// 結果
@@ -186,27 +197,27 @@ public:
 		sub_font(U"走行距離").draw(Arg::rightCenter(770.0, 70.0));
 		sub_font(U"{:.1f}"_fmt(action.ShowTotalMovement()), U"cm").draw(Arg::rightCenter(770.0, 90.0));
 
-		// ボタン押し
-		sub_font(U"累計ボタン押し").draw(Arg::rightCenter(770.0, 290.0));
-		sub_font(U"{}"_fmt(action.ShowPushCount()), U"回").draw(Arg::rightCenter(770.0, 310.0));
+		// カーソル距離
+		sub_font(U"カーソル総距離").draw(Arg::rightCenter(770.0, 290.0));
+		sub_font(U"{:.1f}"_fmt(action.ShowMouseCursorCount() / 1000.0), U"kドット").draw(Arg::rightCenter(770.0, 310.0));
 
 		// ホイール数
-		sub_font(U"ホイール回転").draw(Arg::rightCenter(770.0, 340.0));
-		sub_font(U"{}"_fmt(action.ShowMouseWheelCount()), U"行").draw(Arg::rightCenter(770.0, 360.0));
+		// sub_font(U"ホイール回転").draw(Arg::rightCenter(770.0, 340.0));
+		// sub_font(U"{}"_fmt(action.ShowMouseWheelCount()), U"行").draw(Arg::rightCenter(770.0, 360.0));
 
-		// カーソル距離
-		sub_font(U"カーソル総距離").draw(Arg::rightCenter(770.0, 390.0));
-		sub_font(U"{:.1f}"_fmt(action.ShowMouseCursorCount() / 1000.0), U"kドット").draw(Arg::rightCenter(770.0, 410.0));
+		// ボタン押し
+		sub_font(U"累計ボタン押し").draw(Arg::rightCenter(770.0, 340.0));
+		sub_font(U"{}"_fmt(action.ShowPushCount()), U"回").draw(Arg::rightCenter(770.0, 360.0));
 
 		// スティック距離LR
-		sub_font(U"スティック総距離").draw(Arg::rightCenter(770.0, 440.0));
-		sub_font(U"{:.1f}"_fmt(action.ShowThumbCount().x), U"").draw(Arg::rightCenter(770.0, 460.0));
-		sub_font(U"{:.1f}"_fmt(action.ShowThumbCount().y), U"").draw(Arg::rightCenter(770.0, 480.0));
+		sub_font(U"スティック総距離").draw(Arg::rightCenter(770.0, 390.0));
+		sub_font(U"{:.1f}"_fmt(action.ShowThumbCount().x), U"").draw(Arg::rightCenter(770.0, 410.0));
+		sub_font(U"{:.1f}"_fmt(action.ShowThumbCount().y), U"").draw(Arg::rightCenter(770.0, 430.0));
 
 		// トリガー距離
-		sub_font(U"トリガー総距離").draw(Arg::rightCenter(770.0, 510.0));
-		sub_font(U"{:.1f}"_fmt(action.ShowTriggerCount().x), U"").draw(Arg::rightCenter(770.0, 530.0));
-		sub_font(U"{:.1f}"_fmt(action.ShowTriggerCount().y), U"").draw(Arg::rightCenter(770.0, 550.0));
+		sub_font(U"トリガー総距離").draw(Arg::rightCenter(770.0, 460.0));
+		sub_font(U"{:.1f}"_fmt(action.ShowTriggerCount().x), U"").draw(Arg::rightCenter(770.0, 480.0));
+		sub_font(U"{:.1f}"_fmt(action.ShowTriggerCount().y), U"").draw(Arg::rightCenter(770.0, 500.0));
 
 		return 0;
 	}

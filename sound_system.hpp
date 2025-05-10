@@ -1,15 +1,17 @@
 ﻿#pragma once
 #include <Siv3D.hpp>
 #include "base_sound.hpp"
-#include "wind_up_sound.hpp"
 #include "click_sound.hpp"
+#include "countdown_sound.hpp"
+#include "insert_sound.hpp"
 #include "mini1_sound.hpp"
 #include "mini2_sound.hpp"
 #include "mini3_sound.hpp"
+#include "pull_sound.hpp"
+#include "reset_sound.hpp"
 #include "result_sound.hpp"
 #include "run_sound.hpp"
-#include "countdown_sound.hpp"
-#include "reset_sound.hpp"
+#include "wind_up_sound.hpp"
 
 // 効果音の操作に対する処理クラス
 class SoundSystem
@@ -20,14 +22,6 @@ private:
 	~SoundSystem() = default; // デストラクタ
 
 	Array<BaseSound*>  sounds; // 効果音管理
-
-	Audio click_sound; // クリック音
-	Audio minigame1_sound; // ミニゲーム音1
-	Audio minigame2_sound; // ミニゲーム音2
-	Audio minigame3_sound; // ミニゲーム音3
-	Audio drive_sound; // 走行音
-	Audio result_sound; // 結果発表音
-
 
 
 public:

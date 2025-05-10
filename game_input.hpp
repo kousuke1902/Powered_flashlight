@@ -46,6 +46,7 @@ public:
 			//+ controller.buttonLThumb.down() + controller.buttonRThumb.down() // スティック押し込み
 			+ controller.buttonLB.down() + controller.buttonRB.down(); // LR
 
+		/*
 		// 全てのキーボードの入力情報
 		const Array<Input> allkeys = Keyboard::GetAllInputs();
 
@@ -63,7 +64,7 @@ public:
 		{
 			if (button.down())count++;
 		}
-
+		*/
 		return count;
 	}
 

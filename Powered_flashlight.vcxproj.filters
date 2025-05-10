@@ -911,5 +911,14 @@
     <ClInclude Include="reset_sound.hpp">
       <Filter>Header Files\Sound</Filter>
     </ClInclude>
+    <ClInclude Include="insert_sound.hpp">
+      <Filter>Header Files\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="pull_sound.hpp">
+      <Filter>Header Files\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="tree_view.hpp">
+      <Filter>Header Files\Particle</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

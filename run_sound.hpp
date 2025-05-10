@@ -24,7 +24,7 @@ public:
 	{
 		audio.play(MixBus1);
 		audio.setSpeed(0.5);
-		
+		GlobalAudio::BusSetPitchShiftFilter(MixBus1, 0, -12.0);
 
 		return 0;
 	}

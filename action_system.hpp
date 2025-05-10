@@ -205,24 +205,24 @@ private:
 		// 1回目
 		if (minigame_step == 0)
 		{
-			bar1_volume += deltatime.ShowDeltaTime() / 3.0;
-			if (bar1_volume > 1.0) bar1_volume--;
+			bar1_volume += deltatime.ShowDeltaTime() / 2.0;
+			if (bar1_volume >= 1.0) bar1_volume--;
 
 		}
 
 		// 2回目
 		else if (minigame_step == 1)
 		{
-			bar2_volume += deltatime.ShowDeltaTime() / 2.0;
-			if (bar2_volume > 1.0) bar2_volume--;
+			bar2_volume += deltatime.ShowDeltaTime();
+			if (bar2_volume >= 1.0) bar2_volume--;
 
 		}
 
 		// 3回目
 		else if (minigame_step == 2)
 		{
-			bar3_volume += deltatime.ShowDeltaTime();
-			if (bar3_volume > 1.0) bar3_volume--;
+			bar3_volume += deltatime.ShowDeltaTime() * 2;
+			if (bar3_volume >= 1.0) bar3_volume--;
 
 		}
 
@@ -375,7 +375,7 @@ public:
 			bar1_volume = 0.0;
 			bar2_volume = 0.0;
 			bar3_volume = 0.0;
-			sound.AddSound(new ClickSound());
+			sound.AddSound(new PullSound());
 		}
 
 		// ミニゲーム
@@ -417,7 +417,7 @@ public:
 		else if (scene == _RESULT_SCENE_)
 		{
 			scene = _WINDUP_SCENE_;
-			sound.AddSound(new ClickSound());
+			sound.AddSound(new InsertSound());
 		}
 
 
@@ -506,7 +506,7 @@ public:
 			PushAction();
 			TriggerAction();
 			ThumbAction();
-			WheelAction();
+		//	WheelAction();
 			MouseAction();
 			
 		}
