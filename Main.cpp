@@ -23,7 +23,7 @@ void Main()
 	Platform::Windows::TextInput::DisableIME();
 
 	// 背景の色を設定する | Set the background color
-	Scene::SetBackground(ColorF{ 0.6, 0.8, 0.7 });
+	Scene::SetBackground(Color(0, 0, 40));
 
 
 	ActionSystem& action = ActionSystem::getInstance();

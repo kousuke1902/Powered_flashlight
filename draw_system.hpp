@@ -77,7 +77,7 @@ public:
 		double x = 420.0 - carts.Width() / 1.5;
 		double y = 440.0 - carts.Height() / 3.0;
 		double dist = action.ShowWindUpVolume();
-		wind.Draw(x + dist * 15.0, y, action.ShowPower() * 12_deg, dist);
+		wind.Draw((x + 15.0) * Sin(90_deg * dist), y, action.ShowPower() * 24_deg);
 
 		// ボタン
 		//データ初期化
@@ -196,6 +196,10 @@ public:
 		// 総移動距離
 		sub_font(U"走行距離").draw(Arg::rightCenter(770.0, 70.0));
 		sub_font(U"{:.1f}"_fmt(action.ShowTotalMovement()), U"cm").draw(Arg::rightCenter(770.0, 90.0));
+
+		// ハイスコア
+		sub_font(U"ハイスコア").draw(Arg::rightCenter(770.0, 120.0));
+		sub_font(U"{:.1f}"_fmt(action.ShowHiscore()), U"cm").draw(Arg::rightCenter(770.0, 140.0));
 
 		// カーソル距離
 		sub_font(U"カーソル総距離").draw(Arg::rightCenter(770.0, 290.0));

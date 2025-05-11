@@ -23,13 +23,11 @@ public:
 	~WindUp(){}
 
 	// 描画
-	int Draw(double x, double y, double deg, double alpha)
+	int Draw(double x, double y, double deg)
 	{
-		ColorF color{ 1.0, alpha };
-
-		wind_up.scaled(1.0, Cos(deg)).draw(Arg::rightCenter(x, y), color);
-		wind_up.uv(0.79, 0.0, 0.21, 1.0).draw(Arg::rightCenter(x, y), color);
-		wind_up.uv(0.0, 0.41, 1.0, 0.17).draw(Arg::rightCenter(x, y), color);
+		wind_up.scaled(1.0, Cos(deg)).draw(Arg::rightCenter(x, y));
+		wind_up.uv(0.79, 0.0, 0.21, 1.0).draw(Arg::rightCenter(x, y));
+		wind_up.uv(0.0, 0.41, 1.0, 0.17).draw(Arg::rightCenter(x, y));
 
 		return 0;
 	}

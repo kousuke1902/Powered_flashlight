@@ -5,7 +5,7 @@
 #include "particle_system.hpp"
 #include "delta_time.hpp"
 
-#define _MOUSE_POINT_SIZE_ 1000.0
+#define _MOUSE_POINT_SIZE_ 500.0
 #define _WHEEL_POINT_SIZE_ 8
 #define _WINDUP_SCENE_ 0 // ねじ巻き
 #define _MINIGAME_SCENE_ 1 // ミニゲーム
@@ -43,6 +43,7 @@ private:
 	double movement; // 移動距離
 	double max_movement; // 最大移動距離
 	double total_movement; // 総移動距離
+	double hiscore; // ハイスコア
 
 	double wind_up_volume; // ねじ巻き遷移度(位置，透過度)
 
@@ -232,11 +233,13 @@ private:
 	// 移動処理
 	int MovementAction()
 	{
+		// 継続処理
 		if (movement < max_movement)
 		{
 			movement += deltatime.ShowDeltaTime();
 		}
 
+		// 終了処理
 		else if (movement >= max_movement)
 		{
 			movement = max_movement;
@@ -244,6 +247,12 @@ private:
 			scene = _RESULT_SCENE_;
 			sound.Finish(U"Run");
 			sound.AddSound(new ResultSound());
+
+			if (hiscore < max_movement)
+			{
+				hiscore = max_movement;
+			}
+
 		}
 
 		return 0;
@@ -354,6 +363,12 @@ public:
 		return total_movement;
 	}
 
+	// ハイスコアの参照
+	double ShowHiscore() const
+	{
+		return hiscore;
+	}
+
 	// ねじ巻き遷移度(位置，透過度用)参照
 	double ShowWindUpVolume() const
 	{
@@ -370,7 +385,6 @@ public:
 			// 遷移
 			scene = _MINIGAME_SCENE_;
 			buf_power = power;
-			power = 0;
 			minigame_step = 0;
 			bar1_volume = 0.0;
 			bar2_volume = 0.0;
@@ -385,6 +399,7 @@ public:
 			if (minigame_step == 0)
 			{
 				minigame_step++;
+				power = 0;
 				sound.AddSound(new Mini1Sound());
 			}
 
@@ -410,6 +425,11 @@ public:
 			scene = _RESULT_SCENE_;
 			sound.Finish(U"Run");
 			sound.AddSound(new ResultSound());
+
+			if (hiscore < max_movement)
+			{
+				hiscore = max_movement;
+			}
 			
 		}
 
@@ -457,6 +477,7 @@ public:
 			mouse_count = 0.0;
 			mouse_buffer = 0.0;
 			total_movement = 0.0;
+			hiscore = 0.0;
 			sound.AddSound(new ResetSound());
 
 		}
@@ -487,6 +508,7 @@ public:
 		mouse_count = json[U"mouse"].get<double>(); // マウス移動量
 		mouse_buffer = 0.0; // マウス移動量差分
 		total_movement = json[U"movement"].get<double>(); // 総移動距離
+		hiscore = json[U"hiscore"].get<double>(); // ハイスコア
 		wind_up_volume = 1.0; // ねじ巻き遷移度(位置，透過度)
 		reset_count = 3; // データ初期化のカウント
 
