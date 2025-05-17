@@ -34,7 +34,6 @@ private:
 	Button reset_button; // データ初期化ボタン
 
 	double wind_interval; // 走行パーティクルの時間間隔
-	double tree_interval; // 走行パーティクルの時間間隔
 
 	ActionSystem& action = ActionSystem::getInstance();
 	ParticleSystem& particle = ParticleSystem::getInstance();
@@ -64,7 +63,6 @@ public:
 		action_button = Button{ RectF{ Arg::center(400.0, 500.0), 300.0, 70.0 }, Palette::White };
 		reset_button = Button{ RectF{Arg::center(90.0, 30.0), 150.0, 30.0 }, Palette::White };
 		wind_interval = 0.0;
-		tree_interval = 0.0;
 
 		return 0;
 	}
@@ -74,10 +72,10 @@ public:
 	{
 		
 		// ねじ巻き
-		double x = 420.0 - carts.Width() / 1.5;
-		double y = 440.0 - carts.Height() / 3.0;
+		double x = 435.0 - carts.Width() / 1.5;
+		double y = 430.0 - carts.Height() / 2.0;
 		double dist = action.ShowWindUpVolume();
-		wind.Draw((x + 15.0) * Sin(90_deg * dist), y, action.ShowPower() * 24_deg);
+		wind.Draw(x * Sin(90_deg * dist), y, action.ShowPower() * 24_deg);
 
 		// ボタン
 		//データ初期化
@@ -108,7 +106,7 @@ public:
 		int current_scene = action.ShowScene();
 
 		// 車両
-		carts.Draw(400.0, 450.0, current_scene == _RUN_SCENE_);
+		carts.Draw(400.0, 430.0, current_scene == _RUN_SCENE_);
 
 		if (current_scene == _WINDUP_SCENE_)
 		{
@@ -173,16 +171,10 @@ public:
 				particle.AddParticle(new Wind(3.0, Vec2(Random(400.0 - x, 400.0 + x), Random(380.0 - y, 380.0 + y))));
 			}
 
-			if (tree_interval <= 0.0)
-			{
-				tree_interval = Random(1.0, 2.0);
-				particle.AddParticle(new TreeView(10.0, Vec2(810.0, 300.0 + Random(-50.0, 50.0))));
-			}
-
 			double deltatime = DeltaTime::getInstance().ShowDeltaTime();
 
 			wind_interval -= deltatime;
-			tree_interval -= deltatime;
+
 		}
 
 		// 結果

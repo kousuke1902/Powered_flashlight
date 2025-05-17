@@ -45,7 +45,7 @@ public:
 	{
 		int num = Random(17);
 
-		// num = 15;
+		// num = 17;
 
 		if (num == 0)car = Texture{ 0xF07AB_icon, _CAR_SIZE_ }; // 乗用車
 		else if (num == 1)car = Texture{ 0xF07A9_icon, _CAR_SIZE_ }; // ハッチバック車
@@ -62,7 +62,7 @@ public:
 		else if (num == 12)car = Texture{ 0xF08AB_icon, _CAR_SIZE_ }; // 消防車
 		else if (num == 13)car = Texture{ 0xF0D3A_icon, _CAR_SIZE_ }; // 戦車
 		else if (num == 14)car = Texture{ 0xF11A4_icon, _CAR_SIZE_ }; // ゴルフカート
-		else if (num == 15)car = Texture{ 0xF15EB_icon, _CAR_SIZE_ }; // レジカート
+		else if (num == 15)car = Texture{ 0xF15EB_icon, _CAR_SIZE_ - 100 }; // レジカート
 		else if (num == 16)car = Texture{ 0xF0D79_icon, _CAR_SIZE_ }; // ゴーカート
 		else if (num == 17)car = Texture{ 0xF1677_icon, _CAR_SIZE_ }; // カタツムリ
 

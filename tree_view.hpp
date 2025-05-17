@@ -10,9 +10,9 @@ private:
 public:
 
 	// コンストラクタ
-	TreeView(double set_life_span, Vec2 set_graph ):BaseParticle(set_life_span, set_graph, Vec2(-1.0, 0.0), 300.0)
+	TreeView(double set_life_span, Vec2 set_graph, double set_speed, int size):BaseParticle(set_life_span, set_graph, Vec2(-1.0, 0.0), set_speed)
 	{
-		icon = Texture{ 0xF1C73_icon, 100 };
+		icon = Texture{ 0xF1C73_icon, size };
 
 	}
 

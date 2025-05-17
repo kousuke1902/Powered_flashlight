@@ -10,6 +10,9 @@
 
 void Main()
 {
+	// ウィンドウタイトル
+	Window::SetTitle(U"ねじまきミニカー");
+
 	// ESCキーでアプリケーション終了を行わない
 	System::SetTerminationTriggers(UserAction::CloseButtonClicked);
 
